@@ -12,8 +12,8 @@ spring:
       client:
         registration:
           google:
-            client-id: REPLACE_WITH_YOUR_GOOGLE_CLIENT_ID
-            client-secret: REPLACE_WITH_YOUR_GOOGLE_CLIENT_SECRET
+            client-id: 693740394599-2eifb8c79skvk60da7kvofqot3197et4.apps.googleusercontent.com
+            client-secret: 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
             scope:
               - email
               - profile
