@@ -36,6 +36,6 @@ target/
 *.class
 *.jar
 .env
-application-local.yml
+application.yml
 .mvn/
 *.log
