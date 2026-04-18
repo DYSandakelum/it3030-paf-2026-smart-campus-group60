@@ -1,0 +1,24 @@
+server:
+  port: 8080
+
+spring:
+  data:
+    mongodb:
+      uri: mongodb+srv://smartcampus_user:smartcampus123@smart-campus-cluster.hetf8xd.mongodb.net/?appName=smart-campus-cluster
+      database: smart_campus
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 693740394599-2eifb8c79skvk60da7kvofqot3197et4.apps.googleusercontent.com
+            client-secret: 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
+            scope:
+              - email
+              - profile
+
+app:
+  jwt:
+    secret: smartcampus_jwt_secret_key_2026_very_long_secure_string
+    expiration: 86400000
