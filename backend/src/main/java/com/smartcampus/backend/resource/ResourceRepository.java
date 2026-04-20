@@ -15,7 +15,11 @@ public interface ResourceRepository extends JpaRepository<Resource, Long> {
             where (:type is null or r.type = :type)
               and (:status is null or r.status = :status)
               and (:capacity is null or r.capacity >= :capacity)
-              and (:location is null or lower(r.location) like lower(concat('%', :location, '%')))
+                                                        and (
+                                                                :location is null
+                                                                or lower(r.location) like lower(concat('%', :location, '%'))
+                                                                or lower(r.name) like lower(concat('%', :location, '%'))
+                                                        )
             """)
     List<Resource> search(
             @Param("type") ResourceType type,

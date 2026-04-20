@@ -14,23 +14,46 @@ export default function Resources() {
   const [mode, setMode] = useState('create'); // 'create' | 'edit'
   const [selected, setSelected] = useState(null);
 
+  const [isViewOpen, setIsViewOpen] = useState(false);
+  const [viewing, setViewing] = useState(null);
+
   const modalTitle = useMemo(() => (mode === 'edit' ? 'Edit Resource' : 'Create Resource'), [mode]);
 
   function openCreate() {
     setMode('create');
     setSelected(null);
+    setIsViewOpen(false);
     setIsModalOpen(true);
   }
 
   function openEdit(resource) {
     setMode('edit');
     setSelected(resource);
+    setIsViewOpen(false);
     setIsModalOpen(true);
+  }
+
+  function openView(resource) {
+    setViewing(resource);
+    setIsModalOpen(false);
+    setIsViewOpen(true);
   }
 
   function closeModal() {
     setIsModalOpen(false);
   }
+
+  function closeView() {
+    setIsViewOpen(false);
+  }
+
+  const formatDateTime = (value) => {
+    if (!value) return '—';
+    const date = new Date(value);
+    // If backend returns an ISO string, this will format nicely.
+    if (Number.isNaN(date.getTime())) return String(value);
+    return date.toLocaleString();
+  };
 
   async function handleSubmit(payload) {
     if (mode === 'edit' && selected?.id != null) {
@@ -82,11 +105,11 @@ export default function Resources() {
 
       {loading ? <div className="notice">Loading…</div> : null}
 
-      <ResourceTable resources={resources} onEdit={openEdit} onDelete={handleDelete} />
+      <ResourceTable resources={resources} onView={openView} onEdit={openEdit} onDelete={handleDelete} />
 
       <div className="cards">
         {resources.map((r) => (
-          <ResourceCard key={r.id} resource={r} onEdit={openEdit} onDelete={handleDelete} />
+          <ResourceCard key={r.id} resource={r} onView={openView} onEdit={openEdit} onDelete={handleDelete} />
         ))}
       </div>
 
@@ -98,6 +121,80 @@ export default function Resources() {
           onCancel={closeModal}
           isSubmitting={loading}
         />
+      </ResourceModal>
+
+      <ResourceModal isOpen={isViewOpen} title="Resource Details" onClose={closeView}>
+        {viewing ? (
+          <div className="resource-details">
+            <div className="details-grid">
+              <div className="detail">
+                <div className="detail-k">Name</div>
+                <div className="detail-v">{viewing.name || '—'}</div>
+              </div>
+
+              <div className="detail">
+                <div className="detail-k">Type</div>
+                <div className="detail-v">{viewing.type || '—'}</div>
+              </div>
+
+              <div className="detail">
+                <div className="detail-k">Location</div>
+                <div className="detail-v">{viewing.location || '—'}</div>
+              </div>
+
+              <div className="detail">
+                <div className="detail-k">Capacity</div>
+                <div className="detail-v">{viewing.capacity ?? '—'}</div>
+              </div>
+
+              <div className="detail">
+                <div className="detail-k">Availability Window</div>
+                <div className="detail-v">{viewing.availabilityWindow || '—'}</div>
+              </div>
+
+              <div className="detail">
+                <div className="detail-k">Status</div>
+                <div className="detail-v">{viewing.status || '—'}</div>
+              </div>
+
+              <div className="detail span-2">
+                <div className="detail-k">Description</div>
+                <div className="detail-v">{viewing.description || '—'}</div>
+              </div>
+
+              <div className="detail">
+                <div className="detail-k">Created By</div>
+                <div className="detail-v">{viewing.createdByUserId || '—'}</div>
+              </div>
+
+              <div className="detail">
+                <div className="detail-k">Created At</div>
+                <div className="detail-v">{formatDateTime(viewing.createdAt)}</div>
+              </div>
+
+              <div className="detail">
+                <div className="detail-k">Updated At</div>
+                <div className="detail-v">{formatDateTime(viewing.updatedAt)}</div>
+              </div>
+            </div>
+
+            <div className="form-footer">
+              <button className="btn btn-link" type="button" onClick={closeView}>
+                Close
+              </button>
+              <button
+                className="btn btn-primary"
+                type="button"
+                onClick={() => {
+                  closeView();
+                  openEdit(viewing);
+                }}
+              >
+                Edit
+              </button>
+            </div>
+          </div>
+        ) : null}
       </ResourceModal>
     </div>
   );

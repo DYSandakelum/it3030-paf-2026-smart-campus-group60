@@ -10,7 +10,7 @@ function labelizeType(type) {
   return nice;
 }
 
-export default function ResourceTable({ resources, onEdit, onDelete }) {
+export default function ResourceTable({ resources, onView, onEdit, onDelete }) {
   return (
     <div className="table-wrap">
       <table className="table">
@@ -41,6 +41,9 @@ export default function ResourceTable({ resources, onEdit, onDelete }) {
               </td>
               <td>
                 <div className="row-actions">
+                  <button className="btn btn-outline" type="button" onClick={() => onView?.(r)}>
+                    View
+                  </button>
                   <button className="btn btn-outline" type="button" onClick={() => onEdit?.(r)}>
                     Edit
                   </button>

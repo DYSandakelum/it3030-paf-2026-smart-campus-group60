@@ -20,7 +20,6 @@ function withDefault(values) {
     availabilityWindow: '',
     status: 'ACTIVE',
     description: '',
-    createdByUserId: '',
     ...values,
   };
 }
@@ -50,13 +49,10 @@ export default function ResourceForm({
       availabilityWindow: form.availabilityWindow?.trim() || null,
       status: form.status,
       description: form.description?.trim() || null,
-      createdByUserId: form.createdByUserId.trim(),
     };
 
     onSubmit?.(payload);
   }
-
-  const isEdit = mode === 'edit';
 
   return (
     <form onSubmit={handleSubmit} className="resource-form">
@@ -138,18 +134,6 @@ export default function ResourceForm({
         </div>
 
         <div className="span-2">
-          <label className="label">Created by (user id)</label>
-          <input
-            className="input"
-            value={form.createdByUserId}
-            onChange={(e) => updateField('createdByUserId', e.target.value)}
-            placeholder="e.g., USR001"
-            required
-            disabled={isEdit}
-          />
-        </div>
-
-        <div className="span-2">
           <label className="label">Description</label>
           <textarea
             className="textarea"
@@ -166,7 +150,7 @@ export default function ResourceForm({
           Cancel
         </button>
         <button className="btn btn-primary" type="submit" disabled={isSubmitting}>
-          {isEdit ? 'Save Changes' : 'Create Resource'}
+          {mode === 'edit' ? 'Save Changes' : 'Create Resource'}
         </button>
       </div>
     </form>

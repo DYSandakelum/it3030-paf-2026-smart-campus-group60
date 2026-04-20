@@ -6,6 +6,10 @@ import com.smartcampus.backend.resource.dto.ResourceResponse;
 import com.smartcampus.backend.resource.exception.ResourceNotFoundException;
 import com.smartcampus.backend.resource.mapper.ResourceMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +25,10 @@ public class ResourceServiceImpl implements ResourceService {
     @Override
     public ResourceResponse create(ResourceRequest request) {
         Resource resource = ResourceMapper.toEntity(request);
+
+        // Audit field should come from the authenticated user, not from the client payload.
+        resource.setCreatedByUserId(resolveCurrentUserId());
+
         Resource saved = resourceRepository.save(resource);
         return ResourceMapper.toResponse(saved);
     }
@@ -82,5 +90,23 @@ public class ResourceServiceImpl implements ResourceService {
         }
         String trimmed = value.trim();
         return trimmed.isEmpty() ? null : trimmed;
+    }
+
+    private static String resolveCurrentUserId() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null || !auth.isAuthenticated() || auth instanceof AnonymousAuthenticationToken) {
+            return "local-dev";
+        }
+
+        Object principal = auth.getPrincipal();
+        if (principal instanceof OAuth2User oAuth2User) {
+            Object email = oAuth2User.getAttributes().get("email");
+            if (email != null && !String.valueOf(email).isBlank()) {
+                return String.valueOf(email);
+            }
+        }
+
+        String name = auth.getName();
+        return (name == null || name.isBlank()) ? "local-dev" : name;
     }
 }

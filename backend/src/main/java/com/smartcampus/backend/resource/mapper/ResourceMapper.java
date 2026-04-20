@@ -22,7 +22,6 @@ public final class ResourceMapper {
                 .availabilityWindow(request.getAvailabilityWindow())
                 .status(request.getStatus())
                 .description(request.getDescription())
-                .createdByUserId(request.getCreatedByUserId())
                 .build();
     }
 

@@ -9,7 +9,7 @@ function labelizeType(type) {
     .replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
-export default function ResourceCard({ resource, onEdit, onDelete }) {
+export default function ResourceCard({ resource, onView, onEdit, onDelete }) {
   return (
     <div className="card">
       <div className="card-title">{resource.name}</div>
@@ -27,6 +27,9 @@ export default function ResourceCard({ resource, onEdit, onDelete }) {
       ) : null}
 
       <div className="row-actions" style={{ marginTop: 10 }}>
+        <button className="btn btn-outline" type="button" onClick={() => onView?.(resource)}>
+          View
+        </button>
         <button className="btn btn-outline" type="button" onClick={() => onEdit?.(resource)}>
           Edit
         </button>

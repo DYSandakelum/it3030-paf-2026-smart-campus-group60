@@ -40,8 +40,4 @@ public class ResourceRequest {
 
     @Size(max = 2000, message = "description must be at most 2000 characters")
     private String description;
-
-    @NotBlank(message = "createdByUserId is required")
-    @Size(max = 100, message = "createdByUserId must be at most 100 characters")
-    private String createdByUserId;
 }
