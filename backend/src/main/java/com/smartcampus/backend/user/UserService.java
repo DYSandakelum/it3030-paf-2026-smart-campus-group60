@@ -1,6 +1,7 @@
 package com.smartcampus.backend.user;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -8,6 +9,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Profile("!local")
 public class UserService {
 
     private final UserRepository userRepository;
