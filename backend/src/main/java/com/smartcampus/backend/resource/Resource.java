@@ -55,6 +55,9 @@ public class Resource {
     @Column(length = 2000)
     private String description;
 
+    @Column(length = 255)
+    private String allocatedBy;
+
     @Column(nullable = false, updatable = false)
     private Instant createdAt;
 

@@ -22,6 +22,7 @@ export default function ResourceCard({ resource, onView, onEdit, onDelete }) {
       {resource.availabilityWindow ? (
         <div className="card-meta">Availability: {resource.availabilityWindow}</div>
       ) : null}
+      {resource.allocatedBy ? <div className="card-meta">Allocated by: {resource.allocatedBy}</div> : null}
       {resource.description ? (
         <div className="card-meta">Description: {resource.description}</div>
       ) : null}

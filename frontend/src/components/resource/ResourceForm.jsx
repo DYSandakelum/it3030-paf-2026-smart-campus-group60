@@ -1,7 +1,17 @@
 import React, { useMemo, useState } from 'react';
+import { BUILDINGS, buildLocationString, getBuilding, parseLocationString } from './locationCatalog';
 
 const RESOURCE_TYPES = ['LECTURE_HALL', 'LAB', 'MEETING_ROOM', 'EQUIPMENT'];
 const RESOURCE_STATUSES = ['ACTIVE', 'OUT_OF_SERVICE'];
+
+function parseAvailabilityWindow(value) {
+  const raw = (value || '').trim();
+  if (!raw) return { start: '', end: '' };
+
+  const match = raw.match(/(\d{1,2}:\d{2})\s*-\s*(\d{1,2}:\d{2})/);
+  if (!match) return { start: '', end: '' };
+  return { start: match[1], end: match[2] };
+}
 
 function labelize(value) {
   if (!value) return '';
@@ -12,14 +22,23 @@ function labelize(value) {
 }
 
 function withDefault(values) {
+  const parsedLocation = parseLocationString(values?.location);
+  const parsedAvailability = parseAvailabilityWindow(values?.availabilityWindow);
+
   return {
     name: '',
     type: 'LECTURE_HALL',
     capacity: 0,
-    location: '',
-    availabilityWindow: '',
+    // Location selectors
+    buildingKey: parsedLocation.buildingKey || '',
+    floor: parsedLocation.floor || '',
+    hall: parsedLocation.hall || '',
+    manualLocation: parsedLocation.manualLocation || '',
+    availabilityStart: parsedAvailability.start,
+    availabilityEnd: parsedAvailability.end,
     status: 'ACTIVE',
     description: '',
+    allocatedBy: '',
     ...values,
   };
 }
@@ -38,17 +57,47 @@ export default function ResourceForm({
     setForm((prev) => ({ ...prev, [key]: value }));
   }
 
+  function updateBuilding(nextKey) {
+    setForm((prev) => {
+      if (nextKey === prev.buildingKey) return prev;
+      return {
+        ...prev,
+        buildingKey: nextKey,
+        floor: '',
+        hall: '',
+        manualLocation: nextKey === 'OTHER' ? prev.manualLocation : '',
+      };
+    });
+  }
+
+  function updateFloor(nextFloor) {
+    setForm((prev) => ({ ...prev, floor: nextFloor, hall: '' }));
+  }
+
   function handleSubmit(e) {
     e.preventDefault();
+
+    const location = buildLocationString({
+      buildingKey: form.buildingKey,
+      floor: form.floor,
+      hall: form.hall,
+      manualLocation: form.manualLocation,
+    });
+
+    const availabilityStart = String(form.availabilityStart || '').trim();
+    const availabilityEnd = String(form.availabilityEnd || '').trim();
+    const availabilityWindow =
+      availabilityStart && availabilityEnd ? `${availabilityStart}-${availabilityEnd}` : null;
 
     const payload = {
       name: form.name.trim(),
       type: form.type,
       capacity: Number(form.capacity),
-      location: form.location.trim(),
-      availabilityWindow: form.availabilityWindow?.trim() || null,
+      location,
+      availabilityWindow,
       status: form.status,
       description: form.description?.trim() || null,
+      allocatedBy: form.allocatedBy.trim(),
     };
 
     onSubmit?.(payload);
@@ -97,23 +146,96 @@ export default function ResourceForm({
         </div>
 
         <div className="span-2">
-          <label className="label">Location</label>
+          <label className="label">Building</label>
+          <select
+            className="select"
+            value={form.buildingKey}
+            onChange={(e) => updateBuilding(e.target.value)}
+            required
+          >
+            <option value="" disabled>
+              Select a building…
+            </option>
+            {BUILDINGS.map((b) => (
+              <option key={b.key} value={b.key}>
+                {b.label}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {form.buildingKey === 'OTHER' ? (
+          <div className="span-2">
+            <label className="label">Location (custom)</label>
+            <input
+              className="input"
+              value={form.manualLocation}
+              onChange={(e) => updateField('manualLocation', e.target.value)}
+              placeholder="e.g., Block A, Floor 2"
+              required
+            />
+          </div>
+        ) : (
+          <>
+            <div>
+              <label className="label">Floor</label>
+              <select
+                className="select"
+                value={form.floor}
+                onChange={(e) => updateFloor(e.target.value)}
+                disabled={!form.buildingKey}
+                required
+              >
+                <option value="" disabled>
+                  Select…
+                </option>
+                {(getBuilding(form.buildingKey)?.floors || []).map((f) => (
+                  <option key={String(f)} value={String(f)}>
+                    {f}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label className="label">Hall</label>
+              <select
+                className="select"
+                value={form.hall}
+                onChange={(e) => updateField('hall', e.target.value)}
+                disabled={!form.buildingKey || !form.floor}
+                required
+              >
+                <option value="" disabled>
+                  Select…
+                </option>
+                {(getBuilding(form.buildingKey)?.halls?.(form.floor) || []).map((h) => (
+                  <option key={h} value={h}>
+                    {h}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </>
+        )}
+
+        <div>
+          <label className="label">Available From</label>
           <input
             className="input"
-            value={form.location}
-            onChange={(e) => updateField('location', e.target.value)}
-            placeholder="e.g., Block A, Floor 2"
-            required
+            type="time"
+            value={form.availabilityStart}
+            onChange={(e) => updateField('availabilityStart', e.target.value)}
           />
         </div>
 
         <div>
-          <label className="label">Availability Window</label>
+          <label className="label">Available To</label>
           <input
             className="input"
-            value={form.availabilityWindow}
-            onChange={(e) => updateField('availabilityWindow', e.target.value)}
-            placeholder="e.g., Mon-Fri 08:00-17:00"
+            type="time"
+            value={form.availabilityEnd}
+            onChange={(e) => updateField('availabilityEnd', e.target.value)}
           />
         </div>
 
@@ -131,6 +253,17 @@ export default function ResourceForm({
               </option>
             ))}
           </select>
+        </div>
+
+        <div className="span-2">
+          <label className="label">Allocated By</label>
+          <input
+            className="input"
+            value={form.allocatedBy}
+            onChange={(e) => updateField('allocatedBy', e.target.value)}
+            placeholder="e.g., Mr. Perera"
+            required
+          />
         </div>
 
         <div className="span-2">

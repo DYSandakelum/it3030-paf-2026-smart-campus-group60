@@ -23,6 +23,7 @@ public class ResourceResponse {
     private String availabilityWindow;
     private ResourceStatus status;
     private String description;
+    private String allocatedBy;
     private Instant createdAt;
     private Instant updatedAt;
     private String createdByUserId;

@@ -22,6 +22,7 @@ public final class ResourceMapper {
                 .availabilityWindow(request.getAvailabilityWindow())
                 .status(request.getStatus())
                 .description(request.getDescription())
+            .allocatedBy(request.getAllocatedBy())
                 .build();
     }
 
@@ -33,6 +34,7 @@ public final class ResourceMapper {
         existing.setAvailabilityWindow(request.getAvailabilityWindow());
         existing.setStatus(request.getStatus());
         existing.setDescription(request.getDescription());
+        existing.setAllocatedBy(request.getAllocatedBy());
         // createdByUserId is immutable by design for this module
     }
 
@@ -50,6 +52,7 @@ public final class ResourceMapper {
                 .availabilityWindow(resource.getAvailabilityWindow())
                 .status(resource.getStatus())
                 .description(resource.getDescription())
+                .allocatedBy(resource.getAllocatedBy())
                 .createdAt(resource.getCreatedAt())
                 .updatedAt(resource.getUpdatedAt())
                 .createdByUserId(resource.getCreatedByUserId())

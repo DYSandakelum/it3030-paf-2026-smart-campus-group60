@@ -153,6 +153,11 @@ export default function Resources() {
               </div>
 
               <div className="detail">
+                <div className="detail-k">Allocated By</div>
+                <div className="detail-v">{viewing.allocatedBy || '—'}</div>
+              </div>
+
+              <div className="detail">
                 <div className="detail-k">Status</div>
                 <div className="detail-v">{viewing.status || '—'}</div>
               </div>

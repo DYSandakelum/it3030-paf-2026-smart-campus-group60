@@ -40,4 +40,8 @@ public class ResourceRequest {
 
     @Size(max = 2000, message = "description must be at most 2000 characters")
     private String description;
+
+    @NotBlank(message = "allocatedBy is required")
+    @Size(max = 255, message = "allocatedBy must be at most 255 characters")
+    private String allocatedBy;
 }
