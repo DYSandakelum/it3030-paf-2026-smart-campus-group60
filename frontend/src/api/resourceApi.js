@@ -7,6 +7,18 @@ const client = axios.create({
     '',
 });
 
+client.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers = config.headers || {};
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
 function unwrapApiResponse(response) {
   // Backend uses ApiResponse<T> { success, message, data }
   if (response && response.data && Object.prototype.hasOwnProperty.call(response.data, 'data')) {
