@@ -26,7 +26,6 @@ export default function Resources() {
   const [allocations, setAllocations] = useState([]);
   const [allocLoading, setAllocLoading] = useState(false);
   const [allocError, setAllocError] = useState('');
-  const [allocSearch, setAllocSearch] = useState('');
   const [allocForm, setAllocForm] = useState({ equipmentId: '', quantity: 1, startTime: '', endTime: '' });
   const [allocAvailability, setAllocAvailability] = useState(null);
   const [availabilityLoading, setAvailabilityLoading] = useState(false);
@@ -87,16 +86,6 @@ export default function Resources() {
     () => resources.filter((r) => r.type === 'EQUIPMENT' && r.status === 'ACTIVE'),
     [resources]
   );
-
-  const filteredEquipmentOptions = useMemo(() => {
-    const q = String(allocSearch || '').trim().toLowerCase();
-    if (!q) return equipmentOptions;
-    return equipmentOptions.filter((e) => {
-      const name = String(e?.name || '').toLowerCase();
-      const location = String(e?.location || '').toLowerCase();
-      return name.includes(q) || location.includes(q);
-    });
-  }, [allocSearch, equipmentOptions]);
 
   const selectedAllocEquipment = useMemo(() => {
     const id = Number(allocForm.equipmentId);
@@ -398,16 +387,6 @@ export default function Resources() {
 
                     <form onSubmit={handleAllocateEquipment} className="resource-form">
                       <div className="form-grid">
-                        <div className="span-2">
-                          <label className="label">Search equipment</label>
-                          <input
-                            className="input"
-                            value={allocSearch}
-                            onChange={(e) => setAllocSearch(e.target.value)}
-                            placeholder="Type to search by name or location…"
-                          />
-                        </div>
-
                         <div>
                           <label className="label">Equipment</label>
                           <select
@@ -419,7 +398,7 @@ export default function Resources() {
                             <option value="" disabled>
                               Select…
                             </option>
-                            {filteredEquipmentOptions.map((eq) => (
+                            {equipmentOptions.map((eq) => (
                               <option key={eq.id} value={eq.id}>
                                 {eq.name} (qty {eq.capacity ?? 0})
                               </option>

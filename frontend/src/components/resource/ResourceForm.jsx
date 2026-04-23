@@ -55,7 +55,6 @@ export default function ResourceForm({
   const [form, setForm] = useState(defaults);
 
   const [allocEnabled, setAllocEnabled] = useState(false);
-  const [allocSearch, setAllocSearch] = useState('');
   const [alloc, setAlloc] = useState({ equipmentId: '', quantity: 1, startTime: '', endTime: '' });
 
   function updateField(key, value) {
@@ -96,7 +95,6 @@ export default function ResourceForm({
 
     if (nextType === 'EQUIPMENT') {
       setAllocEnabled(false);
-      setAllocSearch('');
       setAlloc({ equipmentId: '', quantity: 1, startTime: '', endTime: '' });
     }
   }
@@ -129,16 +127,6 @@ export default function ResourceForm({
       }));
     }
   }
-
-  const filteredEquipmentOptions = useMemo(() => {
-    const q = String(allocSearch || '').trim().toLowerCase();
-    if (!q) return equipmentOptions;
-    return equipmentOptions.filter((e) => {
-      const name = String(e?.name || '').toLowerCase();
-      const location = String(e?.location || '').toLowerCase();
-      return name.includes(q) || location.includes(q);
-    });
-  }, [allocSearch, equipmentOptions]);
 
   const selectedEquipment = useMemo(() => {
     const id = Number(alloc.equipmentId);
@@ -389,16 +377,6 @@ export default function ResourceForm({
 
             {allocEnabled ? (
               <div className="form-grid">
-                <div className="span-2">
-                  <label className="label">Search equipment</label>
-                  <input
-                    className="input"
-                    value={allocSearch}
-                    onChange={(e) => setAllocSearch(e.target.value)}
-                    placeholder="Type to search by name or location…"
-                  />
-                </div>
-
                 <div>
                   <label className="label">Equipment</label>
                   <select
@@ -410,7 +388,7 @@ export default function ResourceForm({
                     <option value="" disabled>
                       Select…
                     </option>
-                    {filteredEquipmentOptions.map((eq) => (
+                    {equipmentOptions.map((eq) => (
                       <option key={eq.id} value={eq.id}>
                         {eq.name} (qty {eq.capacity ?? 0})
                       </option>
