@@ -168,17 +168,26 @@ const Navbar = () => {
           )}
         </div>
 
-        <div className="flex items-center gap-2">
-          {user?.profilePicture && (
+        <Link to="/profile"
+          className="flex items-center gap-2
+            hover:opacity-80 transition-opacity">
+          {user?.profilePicture ? (
             <img
               src={user.profilePicture}
               alt={user.name}
               className="h-8 w-8 rounded-full object-cover"/>
+          ) : (
+            <div className="h-8 w-8 rounded-full
+              bg-primary-100 flex items-center justify-center">
+              <span className="text-primary-600 text-sm font-medium">
+                {user?.name?.charAt(0).toUpperCase()}
+              </span>
+            </div>
           )}
           <span className="text-sm text-gray-700">
             {user?.name}
           </span>
-        </div>
+        </Link>
 
         <button
           onClick={logout}
