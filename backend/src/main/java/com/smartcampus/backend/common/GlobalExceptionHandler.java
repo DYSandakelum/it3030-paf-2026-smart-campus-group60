@@ -1,5 +1,6 @@
 package com.smartcampus.backend.common;
 
+import com.smartcampus.backend.resource.allocation.exception.EquipmentUnavailableException;
 import com.smartcampus.backend.resource.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,12 @@ import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+        @ExceptionHandler(EquipmentUnavailableException.class)
+        public ResponseEntity<ApiResponse<Object>> handleEquipmentUnavailable(EquipmentUnavailableException ex) {
+                return ResponseEntity.status(HttpStatus.CONFLICT)
+                                .body(ApiResponse.error(ex.getMessage(), ex.getAvailability()));
+        }
 
         @ExceptionHandler(ResourceNotFoundException.class)
         public ResponseEntity<ApiResponse<Void>> handleResourceNotFound(

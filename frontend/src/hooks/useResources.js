@@ -52,12 +52,12 @@ export default function useResources(initialFilters) {
     setLoading(true);
     setError(null);
     try {
-      await createResource(payload);
+      const created = await createResource(payload);
       await refresh();
-      return true;
+      return created || null;
     } catch (e) {
       setError(e?.response?.data?.message || e?.message || 'Failed to create resource');
-      return false;
+      return null;
     } finally {
       setLoading(false);
     }
