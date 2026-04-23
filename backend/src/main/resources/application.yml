@@ -2,6 +2,9 @@ server:
   port: 8081
 
 spring:
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+
   data:
     mongodb:
       uri: mongodb+srv://smartcampus_user:smartcampus123@smart-campus-cluster.hetf8xd.mongodb.net/?appName=smart-campus-cluster
