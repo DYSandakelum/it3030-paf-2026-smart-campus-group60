@@ -15,13 +15,15 @@ export const createTicket = async (ticketData, files = []) => {
         'ticket',
         new Blob([JSON.stringify(ticketData)], {
             type: 'application/json'
-        })
+        }),
+        'ticket.json'
     );
     files.forEach((file) => formData.append('files', file));
 
+    // Do not set Content-Type header for FormData; let axios/browser handle it
     const response = await api.post('/tickets', formData, {
         headers: {
-            'Content-Type': 'multipart/form-data'
+            // Explicitly delete Content-Type so multipart boundary is auto-generated
         }
     });
     return response.data;

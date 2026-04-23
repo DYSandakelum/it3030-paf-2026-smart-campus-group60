@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getTicketById } from '../services/ticketService';
 import TicketDetail from '../components/tickets/TicketDetail';
+import '../styles/global.css';
 import '../styles/ticketDetailPage.css';
 
 const TicketDetailPage = () => {
@@ -37,35 +38,37 @@ const TicketDetailPage = () => {
     }, [id]);
 
     if (loading) {
-        return <div className="ticket-page-state">Loading ticket details...</div>;
+        return (
+            <div className="page-container">
+                <div className="loading-state">
+                    <div className="loading-spinner"></div>
+                    <p>Loading ticket details...</p>
+                </div>
+            </div>
+        );
     }
 
     if (error) {
         return (
-            <div className="ticket-page-shell">
-                <div className="ticket-page-topbar">
-                    <button onClick={() => navigate('/tickets')} className="back-button">
-                        Back to Tickets
+            <div className="page-container">
+                <div style={{ marginBottom: '20px' }}>
+                    <button onClick={() => navigate('/tickets')} className="btn btn-secondary">
+                        ← Back to Tickets
                     </button>
                 </div>
-                <div className="ticket-page-error-card">
-                    <h2>Error</h2>
-                    <p>{error}</p>
+                <div className="alert alert-danger">
+                    {error}
                 </div>
             </div>
         );
     }
 
     return (
-        <div className="ticket-page-shell">
-            <div className="ticket-page-topbar">
-                <button onClick={() => navigate('/tickets')} className="back-button">
-                    Back to Tickets
+        <div className="page-container wide">
+            <div style={{ marginBottom: '24px' }}>
+                <button onClick={() => navigate('/tickets')} className="btn btn-secondary">
+                    ← Back to Tickets
                 </button>
-                <div className="ticket-page-title-block">
-                    <h1>Ticket Details</h1>
-                    <p>View information clearly and track the status progression.</p>
-                </div>
             </div>
             <TicketDetail
                 ticket={ticket}

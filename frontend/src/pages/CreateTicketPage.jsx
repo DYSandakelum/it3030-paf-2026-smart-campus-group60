@@ -1,12 +1,13 @@
 import React from 'react';
 import CreateTicketForm from '../components/tickets/CreateTicketForm.jsx';
+import '../styles/global.css';
 
 const CreateTicketPage = () => {
     return (
-        <div style={{ padding: '20px', maxWidth: '900px', margin: '0 auto' }}>
-            <div style={{ marginBottom: '20px' }}>
-                <h1>Create Ticket</h1>
-                <p>Submit a new issue and track it through resolution.</p>
+        <div className="page-container narrow">
+            <div className="page-header">
+                <h1 className="page-title">Create New Ticket</h1>
+                <p className="page-subtitle">Submit a detailed description of your issue and we'll get to it as soon as possible</p>
             </div>
             <CreateTicketForm />
         </div>

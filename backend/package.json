@@ -1,0 +1,8 @@
+{
+  "name": "smartcampus-backend",
+  "private": true,
+  "scripts": {
+    "start": "mvnw.cmd spring-boot:run",
+    "test": "mvnw.cmd test"
+  }
+}
