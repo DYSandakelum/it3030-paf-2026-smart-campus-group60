@@ -4,6 +4,7 @@ import com.smartcampus.backend.common.ApiResponse;
 import com.smartcampus.backend.user.User;
 import com.smartcampus.backend.user.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/notifications")
 @RequiredArgsConstructor
+@Profile("!local")
 public class NotificationController {
 
     private final NotificationService notificationService;
