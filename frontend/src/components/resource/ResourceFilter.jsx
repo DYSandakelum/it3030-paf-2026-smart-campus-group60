@@ -1,17 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const RESOURCE_TYPES = ['', 'LECTURE_HALL', 'LAB', 'MEETING_ROOM', 'EQUIPMENT'];
 const RESOURCE_STATUSES = ['', 'ACTIVE', 'OUT_OF_SERVICE'];
 
 export default function ResourceFilter({ filters, onChange, onClear, disabled }) {
+  const [showAdvanced, setShowAdvanced] = useState(false);
+
   function update(key, value) {
     onChange?.({ ...filters, [key]: value });
   }
 
   return (
     <div className="filter-panel">
-      <div className="filter-grid">
-        <div>
+      <div className="filter-topbar">
+        <div className="filter-search">
           <label className="label">Location or name</label>
           <input
             className="input"
@@ -22,63 +24,79 @@ export default function ResourceFilter({ filters, onChange, onClear, disabled })
           />
         </div>
 
-        <div>
-          <label className="label">Type</label>
-          <select
-            className="select"
-            value={filters.type}
-            onChange={(e) => update('type', e.target.value)}
+        <div className="filter-actions">
+          <button
+            className="btn btn-outline"
+            type="button"
+            onClick={() => setShowAdvanced((prev) => !prev)}
             disabled={disabled}
+            aria-expanded={showAdvanced}
           >
-            {RESOURCE_TYPES.map((t) => (
-              <option key={t || 'ALL'} value={t}>
-                {t ? t.replaceAll('_', ' ').toLowerCase().replace(/^\w/, (c) => c.toUpperCase()) : 'All types'}
-              </option>
-            ))}
-          </select>
-        </div>
+            Advanced
+          </button>
 
-        <div>
-          <label className="label">Min capacity</label>
-          <input
-            className="input"
-            type="number"
-            min={0}
-            value={filters.capacity}
-            onChange={(e) => update('capacity', e.target.value)}
-            placeholder="e.g. 20"
-            disabled={disabled}
-          />
-        </div>
-
-        <div>
-          <label className="label">Status</label>
-          <select
-            className="select"
-            value={filters.status}
-            onChange={(e) => update('status', e.target.value)}
-            disabled={disabled}
-          >
-            {RESOURCE_STATUSES.map((s) => (
-              <option key={s || 'ALL'} value={s}>
-                {s
-                  ? s === 'ACTIVE'
-                    ? 'Active'
-                    : s === 'OUT_OF_SERVICE'
-                      ? 'Out of service'
-                      : s
-                  : 'Any status'}
-              </option>
-            ))}
-          </select>
+          <button className="btn btn-link" type="button" onClick={onClear} disabled={disabled}>
+            Clear filters
+          </button>
         </div>
       </div>
 
-      <div className="filter-footer">
-        <button className="btn btn-link" type="button" onClick={onClear} disabled={disabled}>
-          Clear filters
-        </button>
-      </div>
+      {showAdvanced ? (
+        <>
+          <div className="filter-grid filter-advanced">
+            <div>
+              <label className="label">Type</label>
+              <select
+                className="select"
+                value={filters.type}
+                onChange={(e) => update('type', e.target.value)}
+                disabled={disabled}
+              >
+                {RESOURCE_TYPES.map((t) => (
+                  <option key={t || 'ALL'} value={t}>
+                    {t ? t.replaceAll('_', ' ').toLowerCase().replace(/^\w/, (c) => c.toUpperCase()) : 'All types'}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label className="label">Min capacity</label>
+              <input
+                className="input"
+                type="number"
+                min={0}
+                value={filters.capacity}
+                onChange={(e) => update('capacity', e.target.value)}
+                placeholder="e.g. 20"
+                disabled={disabled}
+              />
+            </div>
+
+            <div>
+              <label className="label">Status</label>
+              <select
+                className="select"
+                value={filters.status}
+                onChange={(e) => update('status', e.target.value)}
+                disabled={disabled}
+              >
+                {RESOURCE_STATUSES.map((s) => (
+                  <option key={s || 'ALL'} value={s}>
+                    {s
+                      ? s === 'ACTIVE'
+                        ? 'Active'
+                        : s === 'OUT_OF_SERVICE'
+                          ? 'Out of service'
+                          : s
+                      : 'Any status'}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+        </>
+      ) : null}
     </div>
   );
 }

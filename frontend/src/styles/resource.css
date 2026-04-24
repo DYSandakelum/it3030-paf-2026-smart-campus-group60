@@ -160,10 +160,33 @@ body {
   box-shadow: var(--shadow);
 }
 
+.filter-topbar {
+  display: flex;
+  gap: 14px;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.filter-search {
+  flex: 1 1 420px;
+}
+
+.filter-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
 .filter-grid {
   display: grid;
   grid-template-columns: 1.4fr 1fr 0.8fr 1fr;
   gap: 18px;
+}
+
+.filter-advanced {
+  margin-top: 18px;
 }
 
 .label {
