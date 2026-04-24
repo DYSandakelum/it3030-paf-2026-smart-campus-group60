@@ -40,6 +40,8 @@ const App = () => {
           }>
             <Route path="/dashboard"
               element={<DashboardPage />} />
+        
+
             <Route path="/notifications"
               element={<NotificationsPage />} />
             <Route path="/profile"

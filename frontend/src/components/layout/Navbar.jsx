@@ -4,11 +4,10 @@ import useAuth from '../../hooks/useAuth';
 import api from '../../services/api';
 
 const Navbar = () => {
-  const { user, logout, isAdmin }     = useAuth();
+  const { user, logout, isAdmin }         = useAuth();
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount]     = useState(0);
   const [showPanel, setShowPanel]         = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (user) fetchUnreadCount();
@@ -41,7 +40,9 @@ const Navbar = () => {
     try {
       await api.patch(`/notifications/${id}/read`);
       setNotifications(prev =>
-        prev.map(n => n.id === id ? { ...n, read: true } : n)
+        prev.map(n =>
+          n.id === id ? { ...n, read: true } : n
+        )
       );
       setUnreadCount(prev => Math.max(0, prev - 1));
     } catch (err) {
@@ -62,91 +63,173 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-white shadow-sm border-b border-gray-200
-      px-6 py-4 flex items-center justify-between">
+    <nav style={{
+      background: '#fff',
+      borderBottom: '1px solid #eee',
+      padding: '0 32px',
+      height: '64px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      position: 'sticky',
+      top: 0,
+      zIndex: 100
+    }}>
 
-      <Link to="/dashboard"
-        className="text-xl font-bold text-primary-600">
-        Smart Campus
+      <Link to="/dashboard" style={{
+        fontSize: '20px',
+        fontWeight: 700,
+        color: '#1a2b5e',
+        textDecoration: 'none'
+      }}>
+        SmartCampus
       </Link>
 
-      <div className="flex items-center gap-4">
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: '20px'
+      }}>
 
         {isAdmin() && (
-          <Link to="/admin"
-            className="text-sm text-gray-600 hover:text-primary-600">
+          <Link to="/admin" style={{
+            fontSize: '14px',
+            color: '#555',
+            textDecoration: 'none',
+            fontWeight: 500
+          }}>
             Admin
           </Link>
         )}
 
-        <div className="relative">
+        <div style={{ position: 'relative' }}>
           <button
             onClick={togglePanel}
-            className="relative p-2 text-gray-600
-              hover:text-primary-600 focus:outline-none">
-            <svg xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6" fill="none"
-              viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 17h5l-1.405-1.405A2.032 2.032 0
-                  0118 14.158V11a6.002 6.002 0
-                  00-4-5.659V5a2 2 0 10-4
-                  0v.341C7.67 6.165 6 8.388 6
-                  11v3.159c0 .538-.214
-                  1.055-.595 1.436L4 17h5m6
-                  0v1a3 3 0 11-6 0v-1m6 0H9"/>
+            style={{
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              padding: '6px',
+              position: 'relative',
+              display: 'flex',
+              alignItems: 'center'
+            }}>
+            <svg
+              width="22" height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#555"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3
+                9-3 9h18s-3-2-3-9"/>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
             </svg>
             {unreadCount > 0 && (
-              <span className="absolute -top-1 -right-1
-                bg-red-500 text-white text-xs rounded-full
-                h-5 w-5 flex items-center justify-center">
+              <span style={{
+                position: 'absolute',
+                top: '2px',
+                right: '2px',
+                background: '#e53e3e',
+                color: '#fff',
+                fontSize: '10px',
+                fontWeight: 700,
+                borderRadius: '50%',
+                width: '16px',
+                height: '16px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
                 {unreadCount > 9 ? '9+' : unreadCount}
               </span>
             )}
           </button>
 
           {showPanel && (
-            <div className="absolute right-0 mt-2 w-80
-              bg-white rounded-lg shadow-lg border
-              border-gray-200 z-50">
-
-              <div className="flex items-center justify-between
-                px-4 py-3 border-b border-gray-100">
-                <h3 className="font-semibold text-gray-800">
+            <div style={{
+              position: 'absolute',
+              right: 0,
+              top: '44px',
+              width: '320px',
+              background: '#fff',
+              borderRadius: '12px',
+              boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
+              border: '1px solid #eee',
+              zIndex: 200
+            }}>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: '14px 16px',
+                borderBottom: '1px solid #f0f0f0'
+              }}>
+                <h3 style={{
+                  fontSize: '14px',
+                  fontWeight: 700,
+                  color: '#1a2b5e',
+                  margin: 0
+                }}>
                   Notifications
                 </h3>
                 {unreadCount > 0 && (
                   <button
                     onClick={markAllAsRead}
-                    className="text-xs text-primary-600
-                      hover:underline">
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: '#1a2b5e',
+                      fontSize: '12px',
+                      cursor: 'pointer',
+                      fontWeight: 500
+                    }}>
                     Mark all read
                   </button>
                 )}
               </div>
 
-              <div className="max-h-80 overflow-y-auto">
+              <div style={{
+                maxHeight: '320px',
+                overflowY: 'auto'
+              }}>
                 {notifications.length === 0 ? (
-                  <p className="text-center text-gray-400
-                    text-sm py-6">
+                  <p style={{
+                    textAlign: 'center',
+                    color: '#aaa',
+                    fontSize: '13px',
+                    padding: '24px'
+                  }}>
                     No notifications
                   </p>
                 ) : (
                   notifications.map(n => (
                     <div
                       key={n.id}
-                      onClick={() => !n.read && markAsRead(n.id)}
-                      className={`px-4 py-3 border-b
-                        border-gray-50 cursor-pointer
-                        hover:bg-gray-50 transition-colors
-                        ${!n.read ? 'bg-primary-50' : ''}`}>
-                      <p className={`text-sm ${!n.read
-                        ? 'font-medium text-gray-800'
-                        : 'text-gray-600'}`}>
+                      onClick={() =>
+                        !n.read && markAsRead(n.id)}
+                      style={{
+                        padding: '12px 16px',
+                        borderBottom: '1px solid #f8f8f8',
+                        cursor: n.read
+                          ? 'default' : 'pointer',
+                        background: n.read
+                          ? '#fff' : '#f0f4ff'
+                      }}>
+                      <p style={{
+                        fontSize: '13px',
+                        fontWeight: n.read ? 400 : 600,
+                        color: '#1a2b5e',
+                        margin: '0 0 4px 0'
+                      }}>
                         {n.message}
                       </p>
-                      <p className="text-xs text-gray-400 mt-1">
+                      <p style={{
+                        fontSize: '11px',
+                        color: '#bbb',
+                        margin: 0
+                      }}>
                         {new Date(n.createdAt)
                           .toLocaleDateString()}
                       </p>
@@ -155,43 +238,82 @@ const Navbar = () => {
                 )}
               </div>
 
-              <div className="px-4 py-2 border-t border-gray-100">
+              <div style={{
+                padding: '10px 16px',
+                borderTop: '1px solid #f0f0f0'
+              }}>
                 <Link
                   to="/notifications"
                   onClick={() => setShowPanel(false)}
-                  className="text-xs text-primary-600
-                    hover:underline">
-                  View all notifications
+                  style={{
+                    fontSize: '13px',
+                    color: '#1a2b5e',
+                    textDecoration: 'none',
+                    fontWeight: 500
+                  }}>
+                  View all notifications →
                 </Link>
               </div>
             </div>
           )}
         </div>
 
-        <Link to="/profile"
-          className="flex items-center gap-2
-            hover:opacity-80 transition-opacity">
+        <Link
+          to="/profile"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            textDecoration: 'none'
+          }}>
           {user?.profilePicture ? (
             <img
               src={user.profilePicture}
               alt={user.name}
-              className="h-8 w-8 rounded-full object-cover"/>
+              style={{
+                width: '34px',
+                height: '34px',
+                borderRadius: '50%',
+                objectFit: 'cover',
+                border: '2px solid #e0e0e0'
+              }}/>
           ) : (
-            <div className="h-8 w-8 rounded-full
-              bg-primary-100 flex items-center justify-center">
-              <span className="text-primary-600 text-sm font-medium">
-                {user?.name?.charAt(0).toUpperCase()}
-              </span>
+            <div style={{
+              width: '34px',
+              height: '34px',
+              borderRadius: '50%',
+              background: '#1a2b5e',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: '#fff',
+              fontSize: '13px',
+              fontWeight: 600
+            }}>
+              {user?.name?.charAt(0).toUpperCase()}
             </div>
           )}
-          <span className="text-sm text-gray-700">
+          <span style={{
+            fontSize: '14px',
+            fontWeight: 500,
+            color: '#333'
+          }}>
             {user?.name}
           </span>
         </Link>
 
         <button
           onClick={logout}
-          className="text-sm text-red-500 hover:text-red-700">
+          style={{
+            background: 'none',
+            border: '1px solid #eee',
+            borderRadius: '8px',
+            padding: '6px 14px',
+            fontSize: '13px',
+            color: '#e53e3e',
+            cursor: 'pointer',
+            fontWeight: 500
+          }}>
           Logout
         </button>
       </div>

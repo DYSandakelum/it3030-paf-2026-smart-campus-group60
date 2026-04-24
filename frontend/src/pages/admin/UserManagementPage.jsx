@@ -5,10 +5,19 @@ import useAuth from '../../hooks/useAuth';
 
 const ROLES = ['USER', 'ADMIN', 'TECHNICIAN'];
 
+const roleBadge = (role) => {
+  const styles = {
+    ADMIN:      { bg: '#fdecea', color: '#c62828' },
+    TECHNICIAN: { bg: '#e3f2fd', color: '#1565c0' },
+    USER:       { bg: '#e8f5e9', color: '#2e7d32' },
+  };
+  return styles[role] || styles.USER;
+};
+
 const UserManagementPage = () => {
   const { user: currentUser } = useAuth();
-  const [users, setUsers]     = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [users, setUsers]       = useState([]);
+  const [loading, setLoading]   = useState(true);
   const [updating, setUpdating] = useState(null);
 
   useEffect(() => {
@@ -35,7 +44,7 @@ const UserManagementPage = () => {
           u.id === userId ? { ...u, role: newRole } : u
         )
       );
-      toast.success('Role updated successfully');
+      toast.success('Role updated');
     } catch (err) {
       toast.error('Failed to update role');
     } finally {
@@ -43,133 +52,196 @@ const UserManagementPage = () => {
     }
   };
 
-  const getRoleBadgeColor = (role) => {
-    switch (role) {
-      case 'ADMIN':
-        return 'bg-red-100 text-red-700';
-      case 'TECHNICIAN':
-        return 'bg-blue-100 text-blue-700';
-      default:
-        return 'bg-gray-100 text-gray-600';
-    }
-  };
-
   if (loading) {
     return (
-      <div className="flex justify-center py-12">
-        <div className="animate-spin rounded-full h-8 w-8
-          border-t-2 border-b-2 border-primary-600">
-        </div>
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        padding: '48px'
+      }}>
+        <div style={{
+          width: '32px',
+          height: '32px',
+          border: '3px solid #e0e0e0',
+          borderTop: '3px solid #1a2b5e',
+          borderRadius: '50%',
+          animation: 'spin 1s linear infinite'
+        }}/>
       </div>
     );
   }
 
   return (
     <div>
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-800">
+      <div style={{ marginBottom: '24px' }}>
+        <h1 style={{
+          fontSize: '24px',
+          fontWeight: 700,
+          color: '#1a2b5e',
+          margin: 0
+        }}>
           User Management
         </h1>
-        <p className="text-gray-500 text-sm mt-1">
+        <p style={{
+          color: '#888',
+          fontSize: '14px',
+          marginTop: '4px'
+        }}>
           Manage user roles and access levels
         </p>
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm
-        border border-gray-100 overflow-hidden">
+      <div style={{
+        background: '#fff',
+        borderRadius: '14px',
+        boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
+        border: '1px solid #eee',
+        overflow: 'hidden'
+      }}>
 
-        <div className="px-6 py-4 border-b border-gray-100
-          flex items-center justify-between">
-          <p className="text-sm text-gray-500">
-            Total users: <span className="font-medium
-            text-gray-800">{users.length}</span>
+        <div style={{
+          padding: '14px 20px',
+          borderBottom: '1px solid #f0f0f0',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between'
+        }}>
+          <p style={{
+            fontSize: '13px',
+            color: '#888',
+            margin: 0
+          }}>
+            Total users:{' '}
+            <span style={{
+              fontWeight: 600,
+              color: '#1a2b5e'
+            }}>
+              {users.length}
+            </span>
           </p>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs
-                  font-medium text-gray-500 uppercase
-                  tracking-wider">
-                  User
+        <table style={{
+          width: '100%',
+          borderCollapse: 'collapse'
+        }}>
+          <thead>
+            <tr style={{ background: '#f8f9fb' }}>
+              {['User', 'Email', 'Role',
+                'Change Role', 'Joined'].map(h => (
+                <th
+                  key={h}
+                  style={{
+                    padding: '12px 20px',
+                    textAlign: 'left',
+                    fontSize: '12px',
+                    fontWeight: 600,
+                    color: '#888',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.5px',
+                    borderBottom: '1px solid #f0f0f0'
+                  }}>
+                  {h}
                 </th>
-                <th className="px-6 py-3 text-left text-xs
-                  font-medium text-gray-500 uppercase
-                  tracking-wider">
-                  Email
-                </th>
-                <th className="px-6 py-3 text-left text-xs
-                  font-medium text-gray-500 uppercase
-                  tracking-wider">
-                  Current Role
-                </th>
-                <th className="px-6 py-3 text-left text-xs
-                  font-medium text-gray-500 uppercase
-                  tracking-wider">
-                  Change Role
-                </th>
-                <th className="px-6 py-3 text-left text-xs
-                  font-medium text-gray-500 uppercase
-                  tracking-wider">
-                  Joined
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-50">
-              {users.map(u => (
-                <tr key={u.id}
-                  className="hover:bg-gray-50 transition-colors">
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((u, i) => {
+              const badge = roleBadge(u.role);
+              return (
+                <tr
+                  key={u.id}
+                  style={{
+                    background: i % 2 === 0
+                      ? '#fff' : '#fafafa',
+                    borderBottom: '1px solid #f5f5f5'
+                  }}>
 
-                  <td className="px-6 py-4">
-                    <div className="flex items-center gap-3">
+                  <td style={{ padding: '14px 20px' }}>
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '10px'
+                    }}>
                       {u.profilePicture ? (
                         <img
                           src={u.profilePicture}
                           alt={u.name}
-                          className="h-8 w-8 rounded-full
-                            object-cover"/>
+                          style={{
+                            width: '32px',
+                            height: '32px',
+                            borderRadius: '50%',
+                            objectFit: 'cover'
+                          }}/>
                       ) : (
-                        <div className="h-8 w-8 rounded-full
-                          bg-primary-100 flex items-center
-                          justify-center">
-                          <span className="text-primary-600
-                            text-sm font-medium">
-                            {u.name?.charAt(0).toUpperCase()}
-                          </span>
+                        <div style={{
+                          width: '32px',
+                          height: '32px',
+                          borderRadius: '50%',
+                          background: '#1a2b5e',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          color: '#fff',
+                          fontSize: '12px',
+                          fontWeight: 600
+                        }}>
+                          {u.name?.charAt(0).toUpperCase()}
                         </div>
                       )}
                       <div>
-                        <p className="text-sm font-medium
-                          text-gray-800">
+                        <p style={{
+                          fontSize: '14px',
+                          fontWeight: 500,
+                          color: '#1a2b5e',
+                          margin: 0
+                        }}>
                           {u.name}
                           {u.id === currentUser?.id && (
-                            <span className="ml-2 text-xs
-                              text-primary-500">(you)</span>
+                            <span style={{
+                              marginLeft: '6px',
+                              fontSize: '11px',
+                              color: '#5c7bd4'
+                            }}>
+                              (you)
+                            </span>
                           )}
                         </p>
                       </div>
                     </div>
                   </td>
 
-                  <td className="px-6 py-4">
-                    <p className="text-sm text-gray-600">
+                  <td style={{ padding: '14px 20px' }}>
+                    <p style={{
+                      fontSize: '13px',
+                      color: '#666',
+                      margin: 0
+                    }}>
                       {u.email}
                     </p>
                   </td>
 
-                  <td className="px-6 py-4">
-                    <span className={`inline-flex px-2 py-1
-                      rounded-full text-xs font-medium
-                      ${getRoleBadgeColor(u.role)}`}>
+                  <td style={{ padding: '14px 20px' }}>
+                    <span style={{
+                      display: 'inline-block',
+                      background: badge.bg,
+                      color: badge.color,
+                      fontSize: '11px',
+                      fontWeight: 600,
+                      padding: '3px 10px',
+                      borderRadius: '20px'
+                    }}>
                       {u.role}
                     </span>
                   </td>
 
-                  <td className="px-6 py-4">
+                  <td style={{ padding: '14px 20px' }}>
                     {u.id === currentUser?.id ? (
-                      <span className="text-xs text-gray-400">
+                      <span style={{
+                        fontSize: '12px',
+                        color: '#bbb'
+                      }}>
                         Cannot change own role
                       </span>
                     ) : (
@@ -178,11 +250,16 @@ const UserManagementPage = () => {
                         onChange={(e) =>
                           updateRole(u.id, e.target.value)}
                         disabled={updating === u.id}
-                        className="text-sm border border-gray-200
-                          rounded-lg px-3 py-1.5 focus:outline-none
-                          focus:border-primary-400
-                          disabled:opacity-50 disabled:cursor-not-allowed
-                          bg-white">
+                        style={{
+                          border: '1px solid #e0e0e0',
+                          borderRadius: '8px',
+                          padding: '6px 10px',
+                          fontSize: '13px',
+                          color: '#1a2b5e',
+                          background: '#fff',
+                          outline: 'none',
+                          cursor: 'pointer'
+                        }}>
                         {ROLES.map(role => (
                           <option key={role} value={role}>
                             {role}
@@ -190,26 +267,24 @@ const UserManagementPage = () => {
                         ))}
                       </select>
                     )}
-                    {updating === u.id && (
-                      <span className="ml-2 text-xs
-                        text-gray-400">
-                        Updating...
-                      </span>
-                    )}
                   </td>
 
-                  <td className="px-6 py-4">
-                    <p className="text-sm text-gray-400">
+                  <td style={{ padding: '14px 20px' }}>
+                    <p style={{
+                      fontSize: '13px',
+                      color: '#aaa',
+                      margin: 0
+                    }}>
                       {new Date(u.createdAt)
                         .toLocaleDateString()}
                     </p>
                   </td>
 
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              );
+            })}
+          </tbody>
+        </table>
       </div>
     </div>
   );
