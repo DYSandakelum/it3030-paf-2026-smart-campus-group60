@@ -2,6 +2,28 @@
   box-sizing: border-box;
 }
 
+:root {
+  --bg-page: #f5f5f5;
+  --card-bg: #ffffff;
+  --card-border: #e8ebf2;
+  --text-heading: #1a2b5e;
+  --text-body: #2f3b57;
+  --text-muted: #78839b;
+  --primary: #1a2b5e;
+  --primary-hover: #14224c;
+  --soft-blue: #edf2ff;
+  --danger: #b34753;
+  --danger-hover: #a03f4b;
+  --badge-open-bg: #fde7ec;
+  --badge-open-text: #c14f66;
+  --badge-medium-bg: #fff1dc;
+  --badge-medium-text: #c8821f;
+  --badge-date-bg: #eceff4;
+  --badge-date-text: #606a7f;
+  --badge-neutral-bg: #eceff4;
+  --badge-neutral-text: #606a7f;
+}
+
 html,
 body,
 #root {
@@ -10,12 +32,10 @@ body,
 
 body {
   margin: 0;
-  font-family: "Trebuchet MS", "Segoe UI", sans-serif;
-  color: #142015;
-  background:
-    radial-gradient(circle at top left, rgba(73, 145, 108, 0.16), transparent 32%),
-    radial-gradient(circle at top right, rgba(18, 53, 36, 0.14), transparent 30%),
-    linear-gradient(180deg, #f3f8f4 0%, #eef4ee 100%);
+  font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  color: var(--text-body);
+  text-align: left;
+  background: var(--bg-page);
 }
 
 a {
@@ -45,8 +65,8 @@ textarea {
   top: 0;
   z-index: 10;
   backdrop-filter: blur(14px);
-  background: rgba(255, 255, 255, 0.82);
-  border-bottom: 1px solid rgba(20, 32, 21, 0.08);
+  background: rgba(255, 255, 255, 0.88);
+  border-bottom: 1px solid var(--card-border);
 }
 
 .navbar-inner {
@@ -72,7 +92,7 @@ textarea {
 
 .brand span {
   font-size: 0.88rem;
-  color: #516154;
+  color: var(--text-muted);
 }
 
 .nav-links {
@@ -84,23 +104,23 @@ textarea {
 .nav-link {
   padding: 0.7rem 1rem;
   border-radius: 999px;
-  color: #294030;
-  background: rgba(18, 53, 36, 0.05);
+  color: var(--text-heading);
+  background: var(--soft-blue);
   transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease;
 }
 
 .nav-link:hover,
 .nav-link.active {
   color: #fff;
-  background: linear-gradient(135deg, #123524, #2f6d4f);
+  background: var(--primary);
   transform: translateY(-1px);
 }
 
 .page-card {
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(20, 32, 21, 0.08);
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
   border-radius: 24px;
-  box-shadow: 0 18px 48px rgba(19, 35, 23, 0.08);
+  box-shadow: 0 8px 24px rgba(20, 31, 62, 0.08);
   padding: 1.25rem;
 }
 
@@ -116,12 +136,12 @@ textarea {
 .page-title {
   margin: 0;
   font-size: clamp(1.5rem, 2.4vw, 2.2rem);
-  color: #123524;
+  color: var(--text-heading);
 }
 
 .page-subtitle {
   margin: 0.35rem 0 0;
-  color: #5b6a5f;
+  color: var(--text-muted);
 }
 
 .toolbar,
@@ -150,7 +170,7 @@ textarea {
 .field,
 .detail-item,
 .banner {
-  border: 1px solid rgba(20, 32, 21, 0.08);
+  border: 1px solid var(--card-border);
   background: #fff;
   border-radius: 18px;
   padding: 1rem;
@@ -162,7 +182,7 @@ textarea {
   display: block;
   margin-bottom: 0.45rem;
   font-weight: 700;
-  color: #294030;
+  color: var(--text-heading);
 }
 
 .field input,
@@ -171,11 +191,11 @@ textarea {
 .toolbar input,
 .toolbar select {
   width: 100%;
-  border: 1px solid rgba(20, 32, 21, 0.16);
+  border: 1px solid #d7ddeb;
   border-radius: 14px;
   padding: 0.85rem 0.95rem;
-  background: #fbfdfb;
-  color: #142015;
+  background: #fafbff;
+  color: var(--text-body);
 }
 
 .field textarea {
@@ -188,8 +208,8 @@ textarea {
 .field textarea:focus,
 .toolbar input:focus,
 .toolbar select:focus {
-  outline: 2px solid rgba(47, 109, 79, 0.18);
-  border-color: #2f6d4f;
+  outline: 2px solid rgba(26, 43, 94, 0.2);
+  border-color: var(--primary);
 }
 
 .span-2 {
@@ -217,22 +237,30 @@ textarea {
 
 .button {
   color: #fff;
-  background: linear-gradient(135deg, #123524, #2f6d4f);
+  background: var(--primary);
+}
+
+.button:hover {
+  background: var(--primary-hover);
 }
 
 .button-secondary {
-  color: #123524;
-  background: rgba(18, 53, 36, 0.08);
+  color: var(--text-heading);
+  background: var(--soft-blue);
 }
 
 .button-soft {
-  color: #123524;
-  background: rgba(18, 53, 36, 0.06);
+  color: var(--text-heading);
+  background: #f2f5fb;
 }
 
 .button-danger {
   color: #fff;
-  background: linear-gradient(135deg, #9a2432, #c9414d);
+  background: var(--danger);
+}
+
+.button-danger:hover {
+  background: var(--danger-hover);
 }
 
 .button:disabled,
@@ -274,30 +302,49 @@ textarea {
   letter-spacing: 0.04em;
 }
 
-.status-pending {
-  color: #7a5a00;
-  background: #fff4c7;
+.status-open,
+.status-pending,
+.badge-open,
+.ticket-status-open {
+  color: var(--badge-open-text);
+  background: var(--badge-open-bg);
 }
 
 .status-approved {
-  color: #145334;
-  background: #dff5e8;
+  color: #315ca8;
+  background: #e7efff;
 }
 
 .status-rejected {
-  color: #8e1b25;
-  background: #fde1e6;
+  color: #b34753;
+  background: #fde7ec;
 }
 
 .status-cancelled {
-  color: #525252;
-  background: #ececec;
+  color: var(--badge-neutral-text);
+  background: var(--badge-neutral-bg);
+}
+
+.status-medium-priority,
+.badge-medium-priority,
+.priority-medium,
+.priority-badge-medium {
+  color: var(--badge-medium-text);
+  background: var(--badge-medium-bg);
+}
+
+.status-date,
+.badge-date,
+.ticket-date,
+.date-badge {
+  color: var(--badge-date-text);
+  background: var(--badge-date-bg);
 }
 
 .table-wrap {
   overflow-x: auto;
   border-radius: 18px;
-  border: 1px solid rgba(20, 32, 21, 0.08);
+  border: 1px solid var(--card-border);
 }
 
 .booking-table {
@@ -311,18 +358,18 @@ textarea {
 .booking-table td {
   padding: 0.95rem;
   text-align: left;
-  border-bottom: 1px solid rgba(20, 32, 21, 0.08);
+  border-bottom: 1px solid var(--card-border);
   vertical-align: top;
 }
 
 .booking-table th {
-  background: #f4f8f4;
-  color: #294030;
+  background: #f8f9fc;
+  color: var(--text-heading);
   font-size: 0.9rem;
 }
 
 .booking-table tbody tr:hover {
-  background: rgba(47, 109, 79, 0.03);
+  background: #f7f9ff;
 }
 
 .table-actions,
@@ -341,11 +388,11 @@ textarea {
   place-items: center;
   text-align: center;
   padding: 2rem 1rem;
-  color: #5b6a5f;
+  color: var(--text-muted);
 }
 
 .muted {
-  color: #5b6a5f;
+  color: var(--text-muted);
 }
 
 .detail-card {
@@ -355,13 +402,13 @@ textarea {
 
 .detail-item dt {
   font-size: 0.9rem;
-  color: #5b6a5f;
+  color: var(--text-muted);
 }
 
 .detail-item dd {
   margin: 0.25rem 0 0;
   font-size: 1rem;
-  color: #142015;
+  color: var(--text-body);
   word-break: break-word;
 }
 
@@ -374,7 +421,7 @@ textarea {
 .rejection-panel textarea {
   width: 100%;
   min-height: 100px;
-  border: 1px solid rgba(20, 32, 21, 0.16);
+  border: 1px solid #d7ddeb;
   border-radius: 14px;
   padding: 0.8rem 0.95rem;
 }
