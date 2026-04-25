@@ -15,6 +15,9 @@ import BookingList from './pages/BookingList';
 import CreateBooking from './pages/CreateBooking';
 import BookingDetail from './pages/BookingDetail';
 import AdminBookings from './pages/AdminBookings';
+import TicketsPage from './pages/TicketsPage.jsx';
+import TicketDetailPage from './pages/TicketDetailPage.jsx';
+import CreateTicketPage from './pages/CreateTicketPage.jsx';
 
 export default function App() {
   return (
@@ -38,7 +41,12 @@ export default function App() {
             <Route path="/resources" element={<Resources />} />
             <Route path="/bookings" element={<BookingList />} />
             <Route path="/create" element={<CreateBooking />} />
+            <Route path="/bookings/new" element={<Navigate to="/create" replace />} />
             <Route path="/booking/:id" element={<BookingDetail />} />
+            <Route path="/tickets" element={<TicketsPage />} />
+            <Route path="/tickets/create" element={<CreateTicketPage />} />
+            <Route path="/tickets/new" element={<Navigate to="/tickets/create" replace />} />
+            <Route path="/tickets/:id" element={<TicketDetailPage />} />
 
             <Route
               path="/admin"
