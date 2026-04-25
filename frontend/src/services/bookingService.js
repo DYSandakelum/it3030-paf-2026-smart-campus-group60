@@ -1,11 +1,4 @@
-import axios from "axios";
-
-const api = axios.create({
-  baseURL: "http://localhost:8081/api/bookings",
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
+import api from "./api";
 
 const unwrapData = (response) => response?.data?.data ?? response?.data ?? null;
 
@@ -27,7 +20,7 @@ export const getAllBookings = async (filters = {}) => {
       params.status = filters.status;
     }
 
-    const response = await api.get("", { params });
+    const response = await api.get("/bookings", { params });
     return unwrapData(response);
   } catch (error) {
     throw new Error(getErrorMessage(error));
@@ -36,7 +29,7 @@ export const getAllBookings = async (filters = {}) => {
 
 export const getBookingById = async (id) => {
   try {
-    const response = await api.get(`/${id}`);
+    const response = await api.get(`/bookings/${id}`);
     return unwrapData(response);
   } catch (error) {
     throw new Error(getErrorMessage(error));
@@ -45,7 +38,7 @@ export const getBookingById = async (id) => {
 
 export const createBooking = async (booking) => {
   try {
-    const response = await api.post("", booking);
+    const response = await api.post("/bookings", booking);
     return unwrapData(response);
   } catch (error) {
     throw new Error(getErrorMessage(error));
@@ -54,7 +47,7 @@ export const createBooking = async (booking) => {
 
 export const updateBooking = async (id, booking) => {
   try {
-    const response = await api.put(`/${id}`, booking);
+    const response = await api.put(`/bookings/${id}`, booking);
     return unwrapData(response);
   } catch (error) {
     throw new Error(getErrorMessage(error));
@@ -63,7 +56,7 @@ export const updateBooking = async (id, booking) => {
 
 export const updateStatus = async (id, status) => {
   try {
-    const response = await api.patch(`/${id}/status`, { status });
+    const response = await api.patch(`/bookings/${id}/status`, { status });
     return unwrapData(response);
   } catch (error) {
     throw new Error(getErrorMessage(error));
@@ -72,7 +65,7 @@ export const updateStatus = async (id, status) => {
 
 export const deleteBooking = async (id) => {
   try {
-    const response = await api.delete(`/${id}`);
+    const response = await api.delete(`/bookings/${id}`);
     return unwrapData(response);
   } catch (error) {
     throw new Error(getErrorMessage(error));
