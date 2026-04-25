@@ -1,11 +1,13 @@
 package com.smartcampus.backend.notification;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Profile("!local")
 public class NotificationService {
 
     private final NotificationRepository notificationRepository;

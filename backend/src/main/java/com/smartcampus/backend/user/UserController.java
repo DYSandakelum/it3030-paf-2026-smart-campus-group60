@@ -2,6 +2,7 @@ package com.smartcampus.backend.user;
 
 import com.smartcampus.backend.common.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
+@Profile("!local")
 public class UserController {
 
     private final UserService userService;
