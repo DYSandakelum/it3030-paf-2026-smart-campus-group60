@@ -17,11 +17,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/tickets")
-@CrossOrigin(originPatterns = {"http://localhost:*", "http://127.0.0.1:*"})
+@CrossOrigin(originPatterns = { "http://localhost:*", "http://127.0.0.1:*" })
 public class TicketController {
 
     @Autowired
@@ -58,7 +58,8 @@ public class TicketController {
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
 
         String role = resolveRole(userDetails);
-        Page<TicketResponseDTO> tickets = ticketService.getAllTickets(userDetails.getUsername(), role, null, null, null, pageable);
+        Page<TicketResponseDTO> tickets = ticketService.getAllTickets(userDetails.getUsername(), role, null, null, null,
+                pageable);
         return ResponseEntity.ok(tickets);
     }
 
@@ -73,7 +74,8 @@ public class TicketController {
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
 
         String role = resolveRole(userDetails);
-        Page<TicketResponseDTO> tickets = ticketService.getAllTickets(userDetails.getUsername(), role, status, priority, category, pageable);
+        Page<TicketResponseDTO> tickets = ticketService.getAllTickets(userDetails.getUsername(), role, status, priority,
+                category, pageable);
         return ResponseEntity.ok(tickets);
     }
 
@@ -98,7 +100,8 @@ public class TicketController {
             @AuthenticationPrincipal UserDetails userDetails) {
 
         String role = resolveRole(userDetails);
-        TicketResponseDTO updatedTicket = ticketService.updateTicketStatus(id, statusUpdate, userDetails.getUsername(), role);
+        TicketResponseDTO updatedTicket = ticketService.updateTicketStatus(id, statusUpdate, userDetails.getUsername(),
+                role);
         return ResponseEntity.ok(updatedTicket);
     }
 

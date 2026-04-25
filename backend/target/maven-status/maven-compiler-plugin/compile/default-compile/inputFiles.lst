@@ -1,28 +1,31 @@
-C:\Users\USER\Desktop\Smartcampus\backend\src\java\com\smartcampus\SmartCampusApplication.java
-C:\Users\USER\Desktop\Smartcampus\backend\src\java\com\smartcampus\service\impl\TicketServiceImpl.java
-C:\Users\USER\Desktop\Smartcampus\backend\src\java\com\smartcampus\utils\FileUploadUtil.java
-C:\Users\USER\Desktop\Smartcampus\backend\src\java\com\smartcampus\service\impl\CommentServiceImpl.java
-C:\Users\USER\Desktop\Smartcampus\backend\src\java\com\smartcampus\repository\UserRepository.java
-C:\Users\USER\Desktop\Smartcampus\model\entity\User.java
-C:\Users\USER\Desktop\Smartcampus\backend\src\java\com\smartcampus\controller\CommentController.java
-C:\Users\USER\Desktop\Smartcampus\backend\src\java\com\smartcampus\exception\FileStorageException.java
-C:\Users\USER\Desktop\Smartcampus\model\entity\Comment.java
-C:\Users\USER\Desktop\Smartcampus\backend\src\java\com\smartcampus\controller\TicketController.java
-C:\Users\USER\Desktop\Smartcampus\backend\src\java\com\smartcampus\service\impl\FileStorageServiceImpl.java
-C:\Users\USER\Desktop\Smartcampus\backend\src\java\com\smartcampus\service\interfaces\TicketService.java
-C:\Users\USER\Desktop\Smartcampus\model\dto\TicketResponseDTO.java
-C:\Users\USER\Desktop\Smartcampus\model\dto\StatusUpdateDTO.java
-C:\Users\USER\Desktop\Smartcampus\backend\src\java\com\smartcampus\repository\AttachmentRepository.java
-C:\Users\USER\Desktop\Smartcampus\model\enums\TicketStatus.java
-C:\Users\USER\Desktop\Smartcampus\backend\src\java\com\smartcampus\repository\CommentRepository.java
-C:\Users\USER\Desktop\Smartcampus\backend\src\java\com\smartcampus\service\interfaces\CommentService.java
-C:\Users\USER\Desktop\Smartcampus\model\dto\CommentDTO.java
-C:\Users\USER\Desktop\Smartcampus\backend\src\java\com\smartcampus\exception\UnauthorizedException.java
-C:\Users\USER\Desktop\Smartcampus\model\dto\TicketRequestDTO.java
-C:\Users\USER\Desktop\Smartcampus\model\entity\Attachment.java
-C:\Users\USER\Desktop\Smartcampus\model\enums\Priority.java
-C:\Users\USER\Desktop\Smartcampus\backend\src\java\com\smartcampus\exception\ConflictException.java
-C:\Users\USER\Desktop\Smartcampus\backend\src\java\com\smartcampus\repository\TicketRepository.java
-C:\Users\USER\Desktop\Smartcampus\backend\src\java\com\smartcampus\exception\ResourceNotFoundException.java
-C:\Users\USER\Desktop\Smartcampus\model\entity\Ticket.java
-C:\Users\USER\Desktop\Smartcampus\backend\src\java\com\smartcampus\service\validation\TicketValidator.java
+C:\Users\DYSMy\Desktop\PAF project\it3030-paf-2026-smart-campus-group60\backend\src\java\com\smartcampus\config\DataInitializer.java
+C:\Users\DYSMy\Desktop\PAF project\it3030-paf-2026-smart-campus-group60\backend\src\java\com\smartcampus\config\SecurityConfig.java
+C:\Users\DYSMy\Desktop\PAF project\it3030-paf-2026-smart-campus-group60\backend\src\java\com\smartcampus\controller\CommentController.java
+C:\Users\DYSMy\Desktop\PAF project\it3030-paf-2026-smart-campus-group60\backend\src\java\com\smartcampus\controller\HomeController.java
+C:\Users\DYSMy\Desktop\PAF project\it3030-paf-2026-smart-campus-group60\backend\src\java\com\smartcampus\controller\TicketController.java
+C:\Users\DYSMy\Desktop\PAF project\it3030-paf-2026-smart-campus-group60\backend\src\java\com\smartcampus\exception\ConflictException.java
+C:\Users\DYSMy\Desktop\PAF project\it3030-paf-2026-smart-campus-group60\backend\src\java\com\smartcampus\exception\FileStorageException.java
+C:\Users\DYSMy\Desktop\PAF project\it3030-paf-2026-smart-campus-group60\backend\src\java\com\smartcampus\exception\ResourceNotFoundException.java
+C:\Users\DYSMy\Desktop\PAF project\it3030-paf-2026-smart-campus-group60\backend\src\java\com\smartcampus\exception\UnauthorizedException.java
+C:\Users\DYSMy\Desktop\PAF project\it3030-paf-2026-smart-campus-group60\backend\src\java\com\smartcampus\repository\AttachmentRepository.java
+C:\Users\DYSMy\Desktop\PAF project\it3030-paf-2026-smart-campus-group60\backend\src\java\com\smartcampus\repository\CommentRepository.java
+C:\Users\DYSMy\Desktop\PAF project\it3030-paf-2026-smart-campus-group60\backend\src\java\com\smartcampus\repository\TicketRepository.java
+C:\Users\DYSMy\Desktop\PAF project\it3030-paf-2026-smart-campus-group60\backend\src\java\com\smartcampus\repository\UserRepository.java
+C:\Users\DYSMy\Desktop\PAF project\it3030-paf-2026-smart-campus-group60\backend\src\java\com\smartcampus\service\impl\CommentServiceImpl.java
+C:\Users\DYSMy\Desktop\PAF project\it3030-paf-2026-smart-campus-group60\backend\src\java\com\smartcampus\service\impl\FileStorageServiceImpl.java
+C:\Users\DYSMy\Desktop\PAF project\it3030-paf-2026-smart-campus-group60\backend\src\java\com\smartcampus\service\impl\TicketServiceImpl.java
+C:\Users\DYSMy\Desktop\PAF project\it3030-paf-2026-smart-campus-group60\backend\src\java\com\smartcampus\service\interfaces\CommentService.java
+C:\Users\DYSMy\Desktop\PAF project\it3030-paf-2026-smart-campus-group60\backend\src\java\com\smartcampus\service\interfaces\TicketService.java
+C:\Users\DYSMy\Desktop\PAF project\it3030-paf-2026-smart-campus-group60\backend\src\java\com\smartcampus\service\validation\TicketValidator.java
+C:\Users\DYSMy\Desktop\PAF project\it3030-paf-2026-smart-campus-group60\backend\src\java\com\smartcampus\SmartCampusApplication.java
+C:\Users\DYSMy\Desktop\PAF project\it3030-paf-2026-smart-campus-group60\backend\src\java\com\smartcampus\utils\FileUploadUtil.java
+C:\Users\DYSMy\Desktop\PAF project\it3030-paf-2026-smart-campus-group60\model\dto\CommentDTO.java
+C:\Users\DYSMy\Desktop\PAF project\it3030-paf-2026-smart-campus-group60\model\dto\StatusUpdateDTO.java
+C:\Users\DYSMy\Desktop\PAF project\it3030-paf-2026-smart-campus-group60\model\dto\TicketRequestDTO.java
+C:\Users\DYSMy\Desktop\PAF project\it3030-paf-2026-smart-campus-group60\model\dto\TicketResponseDTO.java
+C:\Users\DYSMy\Desktop\PAF project\it3030-paf-2026-smart-campus-group60\model\entity\Attachment.java
+C:\Users\DYSMy\Desktop\PAF project\it3030-paf-2026-smart-campus-group60\model\entity\Comment.java
+C:\Users\DYSMy\Desktop\PAF project\it3030-paf-2026-smart-campus-group60\model\entity\Ticket.java
+C:\Users\DYSMy\Desktop\PAF project\it3030-paf-2026-smart-campus-group60\model\entity\User.java
+C:\Users\DYSMy\Desktop\PAF project\it3030-paf-2026-smart-campus-group60\model\enums\Priority.java
+C:\Users\DYSMy\Desktop\PAF project\it3030-paf-2026-smart-campus-group60\model\enums\TicketStatus.java

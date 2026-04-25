@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -23,19 +23,19 @@ import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableMethodSecurity
 public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.cors(Customizer.withDefaults());
-        http.csrf().disable();
-        http.authorizeRequests()
-            .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-            .antMatchers("/", "/error", "/api/health", "/h2-console/**").permitAll()
-            .anyRequest().authenticated();
-        http.httpBasic(Customizer.withDefaults());
-        http.headers().frameOptions().sameOrigin();
+        http.cors(Customizer.withDefaults())
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        .requestMatchers("/", "/error", "/api/health", "/h2-console/**").permitAll()
+                        .anyRequest().authenticated())
+                .httpBasic(Customizer.withDefaults())
+                .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()));
 
         return http.build();
     }
@@ -43,19 +43,19 @@ public class SecurityConfig {
     @Bean
     public UserDetailsService userDetailsService() {
         UserDetails user = User.withUsername("user")
-            .password("password")
-            .roles("USER")
-            .build();
+                .password("password")
+                .roles("USER")
+                .build();
 
         UserDetails admin = User.withUsername("admin")
-            .password("password")
-            .roles("ADMIN")
-            .build();
+                .password("password")
+                .roles("ADMIN")
+                .build();
 
         UserDetails tech = User.withUsername("tech")
-            .password("password")
-            .roles("USER")
-            .build();
+                .password("password")
+                .roles("USER")
+                .build();
 
         return new InMemoryUserDetailsManager(user, admin, tech);
     }

@@ -12,11 +12,11 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/comments")
-@CrossOrigin(originPatterns = {"http://localhost:*", "http://127.0.0.1:*"})
+@CrossOrigin(originPatterns = { "http://localhost:*", "http://127.0.0.1:*" })
 public class CommentController {
 
     @Autowired
@@ -53,7 +53,8 @@ public class CommentController {
             @Valid @RequestBody CommentDTO commentDTO,
             @AuthenticationPrincipal UserDetails userDetails) {
 
-        CommentDTO updatedComment = commentService.updateComment(commentId, commentDTO.getText(), userDetails.getUsername());
+        CommentDTO updatedComment = commentService.updateComment(commentId, commentDTO.getText(),
+                userDetails.getUsername());
         return ResponseEntity.ok(updatedComment);
     }
 
