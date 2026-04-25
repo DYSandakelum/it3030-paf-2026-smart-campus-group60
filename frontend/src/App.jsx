@@ -11,6 +11,10 @@ import AdminPage from './pages/admin/AdminPage';
 import UserManagementPage from './pages/admin/UserManagementPage';
 import NotificationsPage from './pages/notifications/NotificationsPage';
 import Resources from './pages/Resources';
+import BookingList from './pages/BookingList';
+import CreateBooking from './pages/CreateBooking';
+import BookingDetail from './pages/BookingDetail';
+import AdminBookings from './pages/AdminBookings';
 
 export default function App() {
   return (
@@ -32,6 +36,9 @@ export default function App() {
             <Route path="/notifications" element={<NotificationsPage />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/resources" element={<Resources />} />
+            <Route path="/bookings" element={<BookingList />} />
+            <Route path="/create" element={<CreateBooking />} />
+            <Route path="/booking/:id" element={<BookingDetail />} />
 
             <Route
               path="/admin"
@@ -46,6 +53,14 @@ export default function App() {
               element={
                 <ProtectedRoute roles={['ADMIN']}>
                   <UserManagementPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/bookings"
+              element={
+                <ProtectedRoute roles={['ADMIN']}>
+                  <AdminBookings />
                 </ProtectedRoute>
               }
             />
