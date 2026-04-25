@@ -18,6 +18,9 @@ import java.io.IOException;
 public class OAuth2SuccessHandler
         extends SimpleUrlAuthenticationSuccessHandler {
 
+    private static final String FRONTEND_CALLBACK_URL =
+            "http://localhost:3000/auth/callback?token=";
+
     private final JwtUtil jwtUtil;
     private final UserService userService;
 
@@ -40,6 +43,6 @@ public class OAuth2SuccessHandler
         String token = jwtUtil.generateToken(user);
 
         getRedirectStrategy().sendRedirect(request, response,
-                "http://localhost:5173/auth/callback?token=" + token);
+                FRONTEND_CALLBACK_URL + token);
     }
 }

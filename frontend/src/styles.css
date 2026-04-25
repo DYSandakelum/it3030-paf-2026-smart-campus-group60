@@ -109,8 +109,24 @@ textarea {
   transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease;
 }
 
+.nav-action {
+  border: 0;
+  padding: 0.7rem 1rem;
+  border-radius: 999px;
+  color: var(--text-heading);
+  background: #f2f5fb;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
 .nav-link:hover,
 .nav-link.active {
+  color: #fff;
+  background: var(--primary);
+  transform: translateY(-1px);
+}
+
+.nav-action:hover {
   color: #fff;
   background: var(--primary);
   transform: translateY(-1px);
