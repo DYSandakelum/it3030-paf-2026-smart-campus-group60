@@ -5,40 +5,85 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br
-      from-primary-50 to-primary-100 flex items-center
-      justify-center px-4">
+    <div style={{
+      minHeight: '100vh',
+      background: '#f5f6fa',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '24px'
+    }}>
+      <div style={{
+        background: '#fff',
+        borderRadius: '16px',
+        padding: '40px 36px',
+        width: '100%',
+        maxWidth: '420px',
+        boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+        border: '1px solid #eee'
+      }}>
 
-      <div className="bg-white rounded-2xl shadow-lg
-        p-8 w-full max-w-md">
-
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-primary-600 mb-2">
-            Smart Campus
+        <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+          <h1 style={{
+            fontSize: '26px',
+            fontWeight: 800,
+            color: '#1a2b5e',
+            margin: '0 0 6px 0'
+          }}>
+            SmartCampus
           </h1>
-          <p className="text-gray-500 text-sm">
+          <p style={{
+            color: '#888',
+            fontSize: '13px',
+            margin: 0
+          }}>
             Operations Hub — SLIIT Faculty of Computing
           </p>
         </div>
 
-        <div className="mb-6">
-          <h2 className="text-xl font-semibold
-            text-gray-800 text-center mb-1">
+        <div style={{ textAlign: 'center', marginBottom: '28px' }}>
+          <h2 style={{
+            fontSize: '18px',
+            fontWeight: 700,
+            color: '#1a2b5e',
+            margin: '0 0 6px 0'
+          }}>
             Welcome back
           </h2>
-          <p className="text-gray-400 text-sm text-center">
+          <p style={{
+            color: '#aaa',
+            fontSize: '13px',
+            margin: 0
+          }}>
             Sign in to access the platform
           </p>
         </div>
 
         <button
           onClick={handleGoogleLogin}
-          className="w-full flex items-center justify-center
-            gap-3 bg-white border-2 border-gray-200
-            rounded-xl px-6 py-3 text-gray-700 font-medium
-            hover:border-primary-400 hover:shadow-md
-            transition-all duration-200">
-          <svg className="w-5 h-5" viewBox="0 0 24 24">
+          style={{
+            width: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '12px',
+            background: '#fff',
+            border: '1.5px solid #e0e0e0',
+            borderRadius: '10px',
+            padding: '13px 20px',
+            fontSize: '14px',
+            fontWeight: 600,
+            color: '#333',
+            cursor: 'pointer',
+            transition: 'border-color 0.2s'
+          }}
+          onMouseEnter={e =>
+            e.target.style.borderColor = '#1a2b5e'}
+          onMouseLeave={e =>
+            e.target.style.borderColor = '#e0e0e0'}>
+          <svg
+            width="18" height="18"
+            viewBox="0 0 24 24">
             <path fill="#4285F4"
               d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26
               1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92
@@ -58,7 +103,13 @@ const LoginPage = () => {
           Continue with Google
         </button>
 
-        <p className="text-center text-xs text-gray-400 mt-6">
+        <p style={{
+          textAlign: 'center',
+          fontSize: '12px',
+          color: '#ccc',
+          marginTop: '20px',
+          marginBottom: 0
+        }}>
           Only SLIIT accounts are authorized to access this system
         </p>
       </div>
