@@ -252,7 +252,7 @@ const AdminDashboardPage = () => {
         </h2>
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(2, 1fr)',
+          gridTemplateColumns: 'repeat(3, 1fr)',
           gap: '16px'
         }}>
           <ModuleCard
@@ -279,6 +279,18 @@ const AdminDashboardPage = () => {
             link="/tickets"
             bg="#fce4ec"
             color="#880e4f"/>
+          <ModuleCard
+            title="Incident Tickets"
+            description="Manage tickets and assign technicians"
+            link="/tickets"
+            bg="#fce4ec"
+            color="#880e4f"/>
+          <ModuleCard
+            title="Send Notification"
+            description="Send a notification directly to any user"
+            link="/admin/notifications"
+            bg="#f3e5f5"
+            color="#6a1b9a"/>
         </div>
       </div>
 

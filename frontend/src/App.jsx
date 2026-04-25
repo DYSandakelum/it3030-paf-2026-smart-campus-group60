@@ -20,6 +20,8 @@ import UserManagementPage
   from './pages/admin/UserManagementPage';
 import NotificationsPage
   from './pages/notifications/NotificationsPage';
+import SendNotificationPage
+  from './pages/notifications/SendNotificationPage';
 
 const App = () => {
   return (
@@ -57,6 +59,12 @@ const App = () => {
               element={
                 <ProtectedRoute roles={['ADMIN']}>
                   <UserManagementPage />
+                </ProtectedRoute>
+              }/>
+            <Route path="/admin/notifications"
+              element={
+                <ProtectedRoute roles={['ADMIN']}>
+                  <SendNotificationPage />
                 </ProtectedRoute>
               }/>
 
