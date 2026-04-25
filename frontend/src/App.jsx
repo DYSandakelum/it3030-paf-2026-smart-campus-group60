@@ -8,6 +8,9 @@ import AuthCallbackPage from './pages/auth/AuthCallbackPage';
 import DashboardPage from './pages/admin/DashboardPage';
 import NotificationsPage from './pages/notifications/NotificationsPage';
 import Resources from './pages/Resources';
+import TicketsPage from './pages/TicketsPage';
+import TicketDetailPage from './pages/TicketDetailPage';
+import CreateTicketPage from './pages/CreateTicketPage';
 
 export default function App() {
   return (
@@ -28,6 +31,9 @@ export default function App() {
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/notifications" element={<NotificationsPage />} />
             <Route path="/resources" element={<Resources />} />
+            <Route path="/tickets" element={<TicketsPage />} />
+            <Route path="/tickets/create" element={<CreateTicketPage />} />
+            <Route path="/tickets/:id" element={<TicketDetailPage />} />
             <Route path="/" element={<Navigate to="/dashboard" replace />} />
           </Route>
         </Routes>
