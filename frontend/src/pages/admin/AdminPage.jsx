@@ -19,7 +19,7 @@ const modules = [
   {
     title: 'Booking Requests',
     description: 'Review, approve or reject booking requests',
-    link: '/bookings',
+    link: '/admin/bookings',
     bg: '#fff8e1',
     color: '#f57f17'
   },
