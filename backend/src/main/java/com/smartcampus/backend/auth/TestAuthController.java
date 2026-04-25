@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/test")
 @RequiredArgsConstructor
+@Profile("!local")
 public class TestAuthController {
 
     private final JwtUtil jwtUtil;

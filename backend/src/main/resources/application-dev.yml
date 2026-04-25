@@ -1,0 +1,17 @@
+# Development profile: runs backend on 8081 with in-memory H2 instead of MySQL.
+# Keeps non-local components (Mongo + OAuth2 + SecurityConfig) enabled.
+
+server:
+  port: 8081
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:smart_campus;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
