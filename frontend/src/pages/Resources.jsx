@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 import useResources from '../hooks/useResources';
 import ResourceFilter from '../components/resource/ResourceFilter';
 import ResourceModal from '../components/resource/ResourceModal';
@@ -273,6 +274,9 @@ export default function Resources() {
           </div>
 
           <div className="resources-actions">
+            <Link className="btn btn-primary" to="/client/dashboard">
+              Client view (temp)
+            </Link>
             <button className="btn btn-primary" type="button" onClick={openCreate} disabled={loading}>
               + New resource
             </button>

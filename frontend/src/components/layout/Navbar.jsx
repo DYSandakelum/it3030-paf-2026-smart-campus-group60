@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 import api from '../../services/api';
 
@@ -8,7 +8,6 @@ const Navbar = () => {
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount]     = useState(0);
   const [showPanel, setShowPanel]         = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (user) fetchUnreadCount();
@@ -73,9 +72,16 @@ const Navbar = () => {
       <div className="flex items-center gap-4">
 
         {isAdmin() && (
-          <Link to="/admin"
+          <Link to="/resources"
             className="text-sm text-gray-600 hover:text-primary-600">
-            Admin
+            Resource Management
+          </Link>
+        )}
+
+        {!isAdmin() && (
+          <Link to="/client/dashboard"
+            className="text-sm text-gray-600 hover:text-primary-600">
+            Resource Dashboard
           </Link>
         )}
 

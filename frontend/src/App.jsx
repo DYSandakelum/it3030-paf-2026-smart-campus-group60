@@ -8,6 +8,18 @@ import AuthCallbackPage from './pages/auth/AuthCallbackPage';
 import DashboardPage from './pages/admin/DashboardPage';
 import NotificationsPage from './pages/notifications/NotificationsPage';
 import Resources from './pages/Resources';
+import ClientResourcesDashboard from './pages/client/ClientResourcesDashboard';
+import useAuth from './hooks/useAuth';
+
+function RoleDashboard() {
+  const { isAdmin } = useAuth();
+  return isAdmin() ? <DashboardPage /> : <ClientResourcesDashboard />;
+}
+
+function HomeRedirect() {
+  const { isAdmin } = useAuth();
+  return <Navigate to={isAdmin() ? '/resources' : '/client/dashboard'} replace />;
+}
 
 export default function App() {
   return (
@@ -25,10 +37,25 @@ export default function App() {
               </ProtectedRoute>
             }
           >
-            <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/dashboard" element={<RoleDashboard />} />
             <Route path="/notifications" element={<NotificationsPage />} />
-            <Route path="/resources" element={<Resources />} />
-            <Route path="/" element={<Navigate to="/dashboard" replace />} />
+            <Route
+              path="/resources"
+              element={
+                <ProtectedRoute roles={['ADMIN']}>
+                  <Resources />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/client/dashboard"
+              element={
+                <ProtectedRoute roles={['USER', 'TECHNICIAN', 'ADMIN']}>
+                  <ClientResourcesDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/" element={<HomeRedirect />} />
           </Route>
         </Routes>
       </AuthProvider>

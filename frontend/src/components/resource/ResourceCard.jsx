@@ -10,6 +10,8 @@ function labelizeType(type) {
 }
 
 export default function ResourceCard({ resource, onView, onEdit, onDelete }) {
+  const showActions = Boolean(onEdit || onDelete);
+
   return (
     <div className="card">
       <div className="card-title">{resource.name}</div>
@@ -31,12 +33,16 @@ export default function ResourceCard({ resource, onView, onEdit, onDelete }) {
         <button className="btn btn-outline" type="button" onClick={() => onView?.(resource)}>
           View
         </button>
-        <button className="btn btn-outline" type="button" onClick={() => onEdit?.(resource)}>
-          Edit
-        </button>
-        <button className="btn btn-danger-outline" type="button" onClick={() => onDelete?.(resource)}>
-          Delete
-        </button>
+        {showActions ? (
+          <>
+            <button className="btn btn-outline" type="button" onClick={() => onEdit?.(resource)}>
+              Edit
+            </button>
+            <button className="btn btn-danger-outline" type="button" onClick={() => onDelete?.(resource)}>
+              Delete
+            </button>
+          </>
+        ) : null}
       </div>
     </div>
   );

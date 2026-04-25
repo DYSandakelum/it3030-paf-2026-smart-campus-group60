@@ -11,6 +11,8 @@ function labelizeType(type) {
 }
 
 export default function ResourceTable({ resources, onView, onEdit, onDelete }) {
+  const showActions = Boolean(onEdit || onDelete);
+
   return (
     <div className="table-wrap">
       <table className="table">
@@ -21,7 +23,7 @@ export default function ResourceTable({ resources, onView, onEdit, onDelete }) {
             <th>Location</th>
             <th>Capacity</th>
             <th>Status</th>
-            <th>Actions</th>
+            {showActions ? <th>Actions</th> : <th>View</th>}
           </tr>
         </thead>
         <tbody>
@@ -44,12 +46,16 @@ export default function ResourceTable({ resources, onView, onEdit, onDelete }) {
                   <button className="btn btn-outline" type="button" onClick={() => onView?.(r)}>
                     View
                   </button>
-                  <button className="btn btn-outline" type="button" onClick={() => onEdit?.(r)}>
-                    Edit
-                  </button>
-                  <button className="btn btn-danger-outline" type="button" onClick={() => onDelete?.(r)}>
-                    Delete
-                  </button>
+                  {showActions ? (
+                    <>
+                      <button className="btn btn-outline" type="button" onClick={() => onEdit?.(r)}>
+                        Edit
+                      </button>
+                      <button className="btn btn-danger-outline" type="button" onClick={() => onDelete?.(r)}>
+                        Delete
+                      </button>
+                    </>
+                  ) : null}
                 </div>
               </td>
             </tr>
