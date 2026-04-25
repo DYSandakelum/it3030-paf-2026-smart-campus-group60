@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
+import axios from 'axios';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
-import api from '../../services/api';
 
 const AuthCallbackPage = () => {
   const [searchParams]  = useSearchParams();
@@ -13,7 +13,11 @@ const AuthCallbackPage = () => {
 
     if (token) {
       localStorage.setItem('token', token);
-      api.get('/auth/me')
+      axios.get(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8081'}/api/auth/me`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
         .then((res) => {
           login(token, res.data.data);
           navigate('/dashboard', { replace: true });

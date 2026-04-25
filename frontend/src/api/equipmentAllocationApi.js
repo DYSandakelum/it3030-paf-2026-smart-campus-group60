@@ -1,20 +1,15 @@
 import axios from 'axios';
+import { applyBasicAuth } from '../services/basicAuth';
 
 const client = axios.create({
   baseURL:
     (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_BASE_URL) ||
-    (typeof process !== 'undefined' && process.env && process.env.REACT_APP_API_BASE_URL) ||
-    '',
+    'http://localhost:8081',
 });
 
 client.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      config.headers = config.headers || {};
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
+    return applyBasicAuth(config);
   },
   (error) => Promise.reject(error)
 );

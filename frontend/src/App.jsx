@@ -29,6 +29,14 @@ export default function App() {
             }
           >
             <Route path="/dashboard" element={<DashboardPage />} />
+            <Route
+              path="/admin"
+              element={
+                <ProtectedRoute roles={['ADMIN']}>
+                  <DashboardPage />
+                </ProtectedRoute>
+              }
+            />
             <Route path="/notifications" element={<NotificationsPage />} />
             <Route path="/resources" element={<Resources />} />
             <Route path="/tickets" element={<TicketsPage />} />
