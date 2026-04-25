@@ -2,6 +2,16 @@ import { useState, useEffect } from 'react';
 import api from '../../services/api';
 import toast from 'react-hot-toast';
 
+const typeColors = {
+  BOOKING_APPROVED:    { bg: '#e8f5e9', color: '#2e7d32' },
+  BOOKING_REJECTED:    { bg: '#fdecea', color: '#c62828' },
+  BOOKING_CANCELLED:   { bg: '#fff3e0', color: '#e65100' },
+  TICKET_STATUS_UPDATED:{ bg: '#e3f2fd', color: '#1565c0' },
+  TICKET_ASSIGNED:     { bg: '#ede7f6', color: '#4527a0' },
+  TICKET_COMMENT_ADDED:{ bg: '#fce4ec', color: '#880e4f' },
+  GENERAL:             { bg: '#f5f5f5', color: '#424242' },
+};
+
 const NotificationsPage = () => {
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading]             = useState(true);
@@ -56,83 +66,177 @@ const NotificationsPage = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center py-12">
-        <div className="animate-spin rounded-full h-8 w-8
-          border-t-2 border-b-2 border-primary-600">
-        </div>
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        padding: '48px'
+      }}>
+        <div style={{
+          width: '32px',
+          height: '32px',
+          border: '3px solid #e0e0e0',
+          borderTop: '3px solid #1a2b5e',
+          borderRadius: '50%',
+          animation: 'spin 1s linear infinite'
+        }}/>
       </div>
     );
   }
 
   return (
-    <div>
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-800">
-          Notifications
-        </h1>
+    <div style={{ padding: '8px 0' }}>
+
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginBottom: '24px'
+      }}>
+        <div>
+          <h1 style={{
+            fontSize: '24px',
+            fontWeight: 700,
+            color: '#1a2b5e',
+            margin: 0
+          }}>
+            Notifications
+          </h1>
+          <p style={{
+            color: '#888',
+            fontSize: '14px',
+            marginTop: '4px'
+          }}>
+            Stay updated on your bookings and tickets
+          </p>
+        </div>
         {notifications.some(n => !n.read) && (
           <button
             onClick={markAllAsRead}
-            className="text-sm text-primary-600
-              hover:underline">
+            style={{
+              background: '#1a2b5e',
+              color: '#fff',
+              border: 'none',
+              borderRadius: '8px',
+              padding: '8px 16px',
+              fontSize: '13px',
+              fontWeight: 500,
+              cursor: 'pointer'
+            }}>
             Mark all as read
           </button>
         )}
       </div>
 
       {notifications.length === 0 ? (
-        <div className="bg-white rounded-xl shadow-sm
-          border border-gray-100 p-12 text-center">
-          <p className="text-gray-400">
+        <div style={{
+          background: '#fff',
+          borderRadius: '12px',
+          padding: '60px 24px',
+          textAlign: 'center',
+          boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
+          border: '1px solid #eee'
+        }}>
+          <p style={{ color: '#aaa', fontSize: '15px' }}>
             No notifications yet
           </p>
         </div>
       ) : (
-        <div className="space-y-3">
-          {notifications.map(n => (
-            <div
-              key={n.id}
-              className={`bg-white rounded-xl shadow-sm
-                border p-4 flex items-start
-                justify-between gap-4
-                ${!n.read
-                  ? 'border-primary-200 bg-primary-50'
-                  : 'border-gray-100'}`}>
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '12px'
+        }}>
+          {notifications.map(n => {
+            const typeStyle =
+              typeColors[n.type] || typeColors.GENERAL;
+            return (
+              <div
+                key={n.id}
+                style={{
+                  background: n.read ? '#fff' : '#f0f4ff',
+                  borderRadius: '12px',
+                  padding: '16px 20px',
+                  boxShadow: '0 1px 3px rgba(0,0,0,0.07)',
+                  border: n.read
+                    ? '1px solid #eee'
+                    : '1px solid #c7d3f5',
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  justifyContent: 'space-between',
+                  gap: '16px'
+                }}>
 
-              <div className="flex-1">
-                <p className={`text-sm ${!n.read
-                  ? 'font-medium text-gray-800'
-                  : 'text-gray-600'}`}>
-                  {n.message}
-                </p>
-                <p className="text-xs text-gray-400 mt-1">
-                  {new Date(n.createdAt).toLocaleString()}
-                </p>
-                <span className="inline-block mt-2 text-xs
-                  bg-gray-100 text-gray-500 px-2 py-0.5
-                  rounded-full">
-                  {n.type?.replace(/_/g, ' ')}
-                </span>
-              </div>
+                <div style={{ flex: 1 }}>
+                  <p style={{
+                    fontSize: '14px',
+                    fontWeight: n.read ? 400 : 600,
+                    color: '#1a2b5e',
+                    margin: '0 0 6px 0'
+                  }}>
+                    {n.message}
+                  </p>
+                  <p style={{
+                    fontSize: '12px',
+                    color: '#aaa',
+                    margin: '0 0 10px 0'
+                  }}>
+                    {new Date(n.createdAt).toLocaleString()}
+                  </p>
+                  <span style={{
+                    display: 'inline-block',
+                    background: typeStyle.bg,
+                    color: typeStyle.color,
+                    fontSize: '11px',
+                    fontWeight: 600,
+                    padding: '3px 10px',
+                    borderRadius: '20px',
+                    letterSpacing: '0.3px'
+                  }}>
+                    {n.type?.replace(/_/g, ' ')}
+                  </span>
+                </div>
 
-              <div className="flex items-center gap-2 shrink-0">
-                {!n.read && (
+                <div style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'flex-end',
+                  gap: '8px',
+                  flexShrink: 0
+                }}>
+                  {!n.read && (
+                    <button
+                      onClick={() => markAsRead(n.id)}
+                      style={{
+                        background: '#1a2b5e',
+                        color: '#fff',
+                        border: 'none',
+                        borderRadius: '6px',
+                        padding: '5px 12px',
+                        fontSize: '12px',
+                        cursor: 'pointer',
+                        fontWeight: 500
+                      }}>
+                      Mark read
+                    </button>
+                  )}
                   <button
-                    onClick={() => markAsRead(n.id)}
-                    className="text-xs text-primary-600
-                      hover:underline whitespace-nowrap">
-                    Mark read
+                    onClick={() => deleteNotification(n.id)}
+                    style={{
+                      background: '#fff0f0',
+                      color: '#e53e3e',
+                      border: '1px solid #fed7d7',
+                      borderRadius: '6px',
+                      padding: '5px 12px',
+                      fontSize: '12px',
+                      cursor: 'pointer',
+                      fontWeight: 500
+                    }}>
+                    Delete
                   </button>
-                )}
-                <button
-                  onClick={() => deleteNotification(n.id)}
-                  className="text-xs text-red-400
-                    hover:text-red-600">
-                  Delete
-                </button>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>
