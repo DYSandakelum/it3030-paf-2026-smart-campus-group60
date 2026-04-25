@@ -12,6 +12,9 @@ import UserManagementPage from './pages/admin/UserManagementPage';
 import NotificationsPage from './pages/notifications/NotificationsPage';
 import SendNotificationPage from './pages/notifications/SendNotificationPage';
 import Resources from './pages/Resources';
+import TicketsPage from './pages/TicketsPage.jsx';
+import TicketDetailPage from './pages/TicketDetailPage.jsx';
+import CreateTicketPage from './pages/CreateTicketPage.jsx';
 
 export default function App() {
   return (
@@ -34,6 +37,9 @@ export default function App() {
             <Route path="/notifications" element={<NotificationsPage />} />
             <Route path="/resources" element={<Resources />} />
             <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/tickets" element={<TicketsPage />} />
+            <Route path="/tickets/create" element={<CreateTicketPage />} />
+            <Route path="/tickets/:id" element={<TicketDetailPage />} />
 
             <Route
               path="/admin"
