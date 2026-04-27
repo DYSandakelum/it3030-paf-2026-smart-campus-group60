@@ -1,5 +1,10 @@
 import { createContext, useState, useEffect } from 'react';
-import api from '../services/api';
+import {
+  clearAuthState,
+  getBasicAuthCredentials,
+  inferUserFromUsername,
+  normalizeUsername,
+} from '../services/basicAuth';
 
 export const AuthContext = createContext(null);
 
@@ -8,38 +13,46 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
     const savedUser = localStorage.getItem('user');
+    const credentials = getBasicAuthCredentials();
 
-    if (token && savedUser) {
+    if (savedUser) {
       setUser(JSON.parse(savedUser));
-      setLoading(false);
-    } else if (token) {
-      api.get('/auth/me')
-        .then((res) => {
-          setUser(res.data.data);
-          localStorage.setItem('user',
-            JSON.stringify(res.data.data));
-        })
-        .catch(() => {
-          localStorage.removeItem('token');
-          localStorage.removeItem('user');
-        })
-        .finally(() => setLoading(false));
+    } else if (credentials?.username) {
+      setUser(inferUserFromUsername(credentials.username));
     } else {
-      setLoading(false);
+      const legacyToken = localStorage.getItem('token');
+      if (legacyToken) {
+        localStorage.removeItem('token');
+      }
     }
+
+    setLoading(false);
   }, []);
 
-  const login = (token, userData) => {
-    localStorage.setItem('token', token);
+  const login = (primary, secondary) => {
+    if (typeof primary === 'string' && secondary && typeof secondary === 'object') {
+      localStorage.setItem('token', primary);
+      localStorage.setItem('user', JSON.stringify(secondary));
+      setUser(secondary);
+      return;
+    }
+
+    const userData = primary;
+    const credentials = secondary || {};
+
+    if (credentials.username && credentials.password) {
+      localStorage.setItem('authUsername', normalizeUsername(credentials.username));
+      localStorage.setItem('authPassword', credentials.password);
+    }
+
     localStorage.setItem('user', JSON.stringify(userData));
+    localStorage.removeItem('token');
     setUser(userData);
   };
 
   const logout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    clearAuthState();
     setUser(null);
     window.location.href = '/login';
   };
