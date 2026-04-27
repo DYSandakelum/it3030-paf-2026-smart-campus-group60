@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 @RestController
 @RequestMapping("/api/notifications")
@@ -63,4 +64,19 @@ public class NotificationController {
         return ResponseEntity.ok(
             ApiResponse.success("Notification deleted", null));
     }
+
+    @PostMapping("/send")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ApiResponse<Notification>> sendToUser(
+            @RequestBody SendNotificationRequest request) {
+        Notification notification = notificationService
+            .sendNotificationToUser(
+                request.getUserId(),
+                request.getType(),
+                request.getMessage()
+            );
+        return ResponseEntity.ok(
+            ApiResponse.success(
+       "Notification sent", notification));
+   }
 }

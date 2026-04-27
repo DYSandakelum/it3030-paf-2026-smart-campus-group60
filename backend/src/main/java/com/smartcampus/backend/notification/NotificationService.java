@@ -72,4 +72,16 @@ public class NotificationService {
 
         notificationRepository.deleteById(notificationId);
     }
+
+    public Notification sendNotificationToUser(
+        String targetUserId,
+        NotificationType type,
+        String message) {
+        return createNotification(
+            targetUserId,
+            type,
+            message,
+            null
+        );
+    }
 }
